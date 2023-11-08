@@ -1,9 +1,11 @@
 import express, { json } from 'express'
 import cors from 'cors'
-import { conectDB } from './config/mongo.js'
-import { userRouter } from './routes/user.js'
-import { handleErrors } from './middlewares/handleErrors.js'
-import { paymentsRouter } from './routes/payments.js'
+import 'dotenv/config'
+import { userRouter } from './routes/user'
+import { conectDB } from './config/mongo'
+import { handleErrors } from './middlewares/handleErrors'
+import { paymentsRouter } from './routes/payments'
+import { authRouter } from './routes/auth'
 
 const app = express()
 
@@ -14,6 +16,7 @@ app.use(json())
 
 app.use('/api/users', userRouter)
 app.use('/api/payments', paymentsRouter)
+app.use('/api/auth', authRouter)
 app.use(handleErrors)
 
 app.listen(process.env.PORT, () => {

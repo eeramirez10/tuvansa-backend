@@ -7,9 +7,11 @@ const {
   NODE_ENV
 } = process.env
 
-const connectionString = NODE_ENV === 'production' ? MONGO_DB_URI : MONGO_DB_URI_TEST
+console.log( NODE_ENV)
 
-export const conectDB = async () => {
+const connectionString = NODE_ENV === 'production' ? MONGO_DB_URI! : MONGO_DB_URI_TEST!
+
+export const conectDB = async (): Promise<void> => {
   try {
     mongoose.connect(connectionString)
   } catch (error) {

@@ -1,7 +1,8 @@
 import { Schema } from 'mongoose'
 import mongooseUniqueValidator from 'mongoose-unique-validator'
+import { IPayment } from '../interfaces/payment'
 
-export const paymentSchema = new Schema({
+export const paymentSchema = new Schema<IPayment>({
   supplier: {
     id: { type: String, required: true, unique: true },
     name: { type: String, required: true, unique: true }
@@ -13,7 +14,9 @@ export const paymentSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'file'
   }]
-}, { timestamps: true })
+}, {
+  timestamps: true
+})
 
 paymentSchema.set('toJSON', {
   transform: (document, returnedObject) => {

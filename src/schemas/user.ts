@@ -1,7 +1,8 @@
 import { Schema } from 'mongoose'
 import mongooseUniqueValidator from 'mongoose-unique-validator'
+import { IUser } from '../interfaces/user.types'
 
-export const userSchema = new Schema({
+export const userSchema = new Schema<IUser>({
   username: {
     type: String,
     required: true,
@@ -21,11 +22,11 @@ export const userSchema = new Schema({
   },
   branchOffice: {
     type: String,
-    required: true
+    required: true,
+    enum: ["Mexico","Monterrey", "Veracruz", "Mexicali", "Queretaro", "Cancun"]
   },
   rol: {
     type: String,
-    required: true
   }
 
 }, {

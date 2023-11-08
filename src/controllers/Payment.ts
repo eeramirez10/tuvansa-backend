@@ -1,7 +1,8 @@
-import { PaymentModel } from '../models/Payment.js'
+import { NextFunction, Request, Response } from 'express'
+import { PaymentModel } from '../models/Payment'
 
 export class PaymentController {
-  static create = async (req, res, next) => {
+  static create = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const {
         supplier,
@@ -25,9 +26,10 @@ export class PaymentController {
     }
   }
 
-  static getAll = async (req, res, next) => {
+  static getAll = async (_req: Request, res: Response, next: NextFunction) => {
     try {
       const payments = await PaymentModel.getAlL()
+
       return res.json(payments)
     } catch (error) {
       next(error)
