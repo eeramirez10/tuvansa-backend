@@ -10,9 +10,17 @@ export const paymentSchema = new Schema({
   amount: { type: Number },
   comments: { type: String },
   files: [{
-    id: Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'file'
   }]
 }, { timestamps: true })
+
+paymentSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id
+    delete returnedObject._id
+    delete returnedObject.__v
+  }
+})
 
 paymentSchema.plugin(mongooseUniqueValidator)

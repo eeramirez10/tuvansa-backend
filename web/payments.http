@@ -1,0 +1,16 @@
+### Get All payments
+GET http://localhost:4000/api/payments
+
+
+### Create Payment
+POST http://localhost:4000/api/payments
+Content-Type: application/json
+
+{
+  "supplier":{
+    "id":"2",
+    "name": "Concarril"
+  },
+  "docto": "1234",
+  "amount": 10
+}
