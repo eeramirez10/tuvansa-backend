@@ -8,6 +8,7 @@ const ERROR_HANDLERS:  Record<string, (res: Response, e: Error) => void>  = {
 
 export const handleErrors = (error: Error, _req: Request, res: Response, _next: NextFunction) => {
   console.log(error.name)
+  console.log(error)
   const handler = ERROR_HANDLERS[error.name] || ERROR_HANDLERS.Default
   handler(res, error)
 }

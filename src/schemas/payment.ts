@@ -4,15 +4,16 @@ import { IPayment } from '../interfaces/payment'
 
 export const paymentSchema = new Schema<IPayment>({
   supplier: {
-    id: { type: String, required: true, unique: true },
-    name: { type: String, required: true, unique: true }
+    type: Schema.Types.ObjectId,
+    ref: 'Supplier'
   },
   docto: { type: String, required: true },
-  amount: { type: Number },
+  paid: { type: Number },
   comments: { type: String },
+  datePaid: { type: Date, required: true },
   files: [{
     type: Schema.Types.ObjectId,
-    ref: 'file'
+    ref: 'File'
   }]
 }, {
   timestamps: true

@@ -2,20 +2,26 @@ import { type ObjectId } from "mongoose"
 
 export interface IPayment {
   id?: ObjectId
-  supplier: Supplier
+  supplier?: ObjectId
   docto: string
-  amount?: string
+  paid?: number
   comments?: string
-  files?: File
+  datePaid: Date
+  files?: ObjectId []
 }
 
 export interface Supplier {
-  id: string
-  name: stringS
+  id?: ObjectId
+  idProscai: string
+  name: string
 }
 
 export interface File {
-  id: string,
+  id?: string,
   name: string
-  ext: string
+  ext: string,
+  payment?: ObjectId
 }
+
+
+export type PaymentId = Pick<IPayment, 'id'>
