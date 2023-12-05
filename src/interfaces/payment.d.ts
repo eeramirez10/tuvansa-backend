@@ -1,19 +1,32 @@
 import { type ObjectId } from "mongoose"
+import { IUser } from "./user.types"
 
 export interface IPayment {
   id?: ObjectId
-  supplier?: ObjectId
+  supplier: ObjectId
   docto: string
   paid?: number
   comments?: string
   datePaid: Date
   files?: ObjectId []
+  user?: ObjectId
+}
+
+export interface PaymentBody {
+  supplier: Supplier
+  docto: string
+  paid: number
+  comments: string
+  datePaid: Date
 }
 
 export interface Supplier {
-  id?: ObjectId
   idProscai: string
   name: string
+}
+
+export interface SupplierId extends Supplier {
+  id: ObjectId
 }
 
 export interface File {

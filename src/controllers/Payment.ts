@@ -1,32 +1,43 @@
 import { NextFunction, Request, Response } from 'express'
 import { PaymentModel } from '../models/Payment'
 import { SupplierModel } from '../models/SupplierModel'
+import { RequestExt } from '../interfaces/request.interface';
+import { PaymentBody } from '../interfaces/payment'
+import { ObjectId } from 'mongoose';
+
+interface RequesExt extends Request {
+  userId: ObjectId;
+  body: PaymentBody
+
+}
 
 export class PaymentController {
-  static create = async (req: Request, res: Response, next: NextFunction) => {
+  static create = async (req: RequesExt, res: Response, next: NextFunction) => {
+
+    const userId = req.userId
     try {
       const {
         docto,
         paid = 0,
         comments = '',
         datePaid,
-        idProscai,
-        supplierName
+        supplier
       } = req.body
 
-      const supplier = await SupplierModel.create({ input: { name: supplierName, idProscai } })
+      const supplierDB = await SupplierModel.create({ input: supplier })
 
       const newPayment = {
-        supplier: supplier.id,
+        supplier: supplierDB.id,
         docto,
         paid,
         comments,
-        datePaid
+        datePaid,
+        user: userId
       }
 
       const paymentDB = await PaymentModel.create({ input: newPayment })
 
-      return res.json(paymentDB)
+      return res.json({ payment: paymentDB })
     } catch (error) {
       next(error)
     }
@@ -36,7 +47,7 @@ export class PaymentController {
     try {
       const payments = await PaymentModel.getAlL()
 
-      return res.json(payments)
+      return res.json({ payments })
     } catch (error) {
       next(error)
     }
@@ -49,9 +60,7 @@ export class PaymentController {
 
       const payment = await PaymentModel.getById({ id: paymentId })
 
-      console.log(payment)
-
-      res.json(payment)
+      res.json({ payment })
 
     } catch (error) {
       next(error)
@@ -84,7 +93,7 @@ export class PaymentController {
     try {
       const payment = await PaymentModel.update({ id, input: updatedPayment })
 
-      res.status(201).json(payment)
+      res.status(201).json({ payment })
 
     } catch (error) {
       next(error)

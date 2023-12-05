@@ -18,3 +18,8 @@ Content-Type: application/json
   "branchOffice": "Mexico",
   "password": "912522Pop"
 }
+
+### renew token 
+POST http://localhost:4000/api/auth/renew
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NGFiMWZkN2VkMjg1ZmIzNThhOTQ2ZSIsInVzZXJuYW1lIjoiZWVyYW1pcmV6IiwiaWF0IjoxNzAxMjA5MTc1LCJleHAiOjE3MDEyMTI3NzV9.SKqZeE7SBIlW4AUUPtbpVwNmbw2j4Ong76G-KPnNOkM

@@ -8,9 +8,12 @@ const Payment = model<IPayment>('Payment', paymentSchema)
 export class PaymentModel {
   static create = async ({ input }: { input: IPayment }) => {
 
+    console.log(input)
+
     const payment = await Payment.create(input)
     return payment
   }
+
 
   static getAlL = async () => {
     const payments = Payment.find({})
@@ -18,6 +21,7 @@ export class PaymentModel {
         payment: 0
       })
       .populate('supplier')
+      .populate('user')
 
     return payments
   }

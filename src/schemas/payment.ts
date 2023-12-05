@@ -14,7 +14,11 @@ export const paymentSchema = new Schema<IPayment>({
   files: [{
     type: Schema.Types.ObjectId,
     ref: 'File'
-  }]
+  }],
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }
 }, {
   timestamps: true
 })

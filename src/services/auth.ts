@@ -4,11 +4,6 @@ import { UserModel } from "../models/User";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken'
 
-interface LoginProps {
-  username: object,
-  password: object
-}
-
 export const AUTH_HANDLE_ERRORS = {
   NOT_FOUND_USER: 'NOT_FOUND_USER',
   INVALID_PASSWORD: 'INVALID_PASSWORD',
@@ -16,21 +11,24 @@ export const AUTH_HANDLE_ERRORS = {
 }
 
 interface TokenResponse {
-  token: string;
+  user?: IUser
+  token?: string;
+  error?: string
 }
 
-export const loginUser = async (authUser: Auth): Promise<string | TokenResponse> => {
+export const loginUser = async (authUser: Auth): Promise<TokenResponse> => {
 
   const { username, password } = authUser
 
 
   const user = await UserModel.findOne({ input: { username: username } })
 
-  if (!user) return AUTH_HANDLE_ERRORS['NOT_FOUND_USER']
+
+  if (!user) return { error: AUTH_HANDLE_ERRORS['NOT_FOUND_USER'] }
 
   const verifyPassword = await bcrypt.compare(password, user.passwordHash!)
 
-  if (!verifyPassword) return AUTH_HANDLE_ERRORS['INVALID_PASSWORD']
+  if (!verifyPassword) return { error: AUTH_HANDLE_ERRORS['INVALID_PASSWORD'] }
 
   const userForToken = {
     id: user.id,
@@ -39,7 +37,10 @@ export const loginUser = async (authUser: Auth): Promise<string | TokenResponse>
 
   const token = jwt.sign(userForToken, process.env.SEED!, { expiresIn: 60 * 60 })
 
-  return token
+  return {
+    user,
+    token
+  }
 
 
 }

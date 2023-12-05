@@ -16,6 +16,8 @@ export const multerUpload = multer({
 
       const { paymentId } = req.params
 
+      console.log(fileName)
+
       const newFile: IFile = {
         name: fileName,
         ext: fileExtension,

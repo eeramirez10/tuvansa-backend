@@ -3,8 +3,8 @@ POST http://localhost:4000/api/users
 Content-Type: application/json
 
 {
-  "username": "zramirez",
-  "name": "Zadquiel",
+  "username": "eeramirez",
+  "name": "Erick",
   "password": "912522Pop",
   "last": "Ramirez",
   "branchOffice": "Mexico",
