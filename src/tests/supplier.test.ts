@@ -6,9 +6,6 @@ import { conectDB } from "../config/mongo";
 conectDB()
 
 
-let token;
-
-
 
 describe('sipplier /post', () => {
 

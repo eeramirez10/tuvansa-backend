@@ -10,3 +10,6 @@ Content-Type: application/json
   "branchOffice": "Mexico",
   "rol": "admin"
 }
+
+### Find user by id
+GET http://localhost:4000/api/users/656e2816ce53c2e0de69790b

@@ -12,7 +12,7 @@ export class UserModel {
     return user
   }
 
-  static findById = async (id: ObjectId) => {
+  static findById = async (id: String) => {
     const user = await User.findById(id)
     return user
   }

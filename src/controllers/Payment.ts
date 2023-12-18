@@ -2,14 +2,16 @@ import { NextFunction, Request, Response } from 'express'
 import { PaymentModel } from '../models/Payment'
 import { SupplierModel } from '../models/SupplierModel'
 import { RequestExt } from '../interfaces/request.interface';
-import { PaymentBody } from '../interfaces/payment'
+import { PaymentBody, type PaymenttBody } from '../interfaces/payment'
 import { ObjectId } from 'mongoose';
+import { DoctoModel } from '../models/Docto';
 
 interface RequesExt extends Request {
   userId: ObjectId;
-  body: PaymentBody
+  body: PaymenttBody
 
 }
+
 
 export class PaymentController {
   static create = async (req: RequesExt, res: Response, next: NextFunction) => {
@@ -17,27 +19,32 @@ export class PaymentController {
     const userId = req.userId
     try {
       const {
-        docto,
-        paid = 0,
-        comments = '',
-        datePaid,
-        supplier
-      } = req.body
+        supplier,
+        doctos
+      } = req.body as PaymenttBody
 
       const supplierDB = await SupplierModel.create({ input: supplier })
 
-      const newPayment = {
-        supplier: supplierDB.id,
-        docto,
-        paid,
-        comments,
-        datePaid,
-        user: userId
+
+      for (let docto of doctos) {
+
+        const doctoDB = await DoctoModel.create({ docto })
       }
 
-      const paymentDB = await PaymentModel.create({ input: newPayment })
 
-      return res.json({ payment: paymentDB })
+
+      // const newPayment = {
+      //   supplier: supplierDB.id,
+      //   docto,
+      //   paid,
+      //   comments,
+      //   datePaid,
+      //   user: userId
+      // }
+
+      // const paymentDB = await PaymentModel.create({ input: newPayment })
+
+      // return res.json({ payment: paymentDB })
     } catch (error) {
       next(error)
     }

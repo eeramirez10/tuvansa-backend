@@ -12,11 +12,12 @@ POST http://localhost:4000/api/auth/register
 Content-Type: application/json
 
 {
-  "username": "gbarranco",
-  "name": "german",
-  "last": "Barranco",
+  "username": "ccarretero",
+  "name": "Carolina",
+  "last": "Carretero",
   "branchOffice": "Mexico",
-  "password": "912522Pop"
+  "password": "912522Pop",
+  "rol": "inventory"
 }
 
 ### renew token 

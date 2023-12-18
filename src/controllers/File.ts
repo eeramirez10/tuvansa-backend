@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import { PaymentModel } from "../models/Payment";
 
 
 export class FileController {

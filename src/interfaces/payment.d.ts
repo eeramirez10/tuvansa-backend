@@ -1,5 +1,7 @@
 import { type ObjectId } from "mongoose"
 import { IUser } from "./user.types"
+import { Docto } from "./docto.interface"
+
 
 export interface IPayment {
   id?: ObjectId
@@ -10,6 +12,17 @@ export interface IPayment {
   datePaid: Date
   files?: ObjectId []
   user?: ObjectId
+}
+
+export interface Paymentt {
+  supplier: ObjectId
+  doctos: Docto[]
+  user: ObjectId
+}
+
+export interface PaymenttBody {
+  supplier: Supplier,
+  doctos: Docto[]
 }
 
 export interface PaymentBody {

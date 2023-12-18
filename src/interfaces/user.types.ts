@@ -7,6 +7,10 @@ export interface IUser {
   rol?: string
 }
 
+export interface UserId extends IUser {
+  id: string
+}
+
 export interface IUserBody extends IUser {
   password: string
 }
