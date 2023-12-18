@@ -3,6 +3,7 @@ import { AUTH_HANDLE_ERRORS, loginUser, registerUser } from "../services/auth";
 import { IUserBody } from "../interfaces/user.types";
 import jwt from 'jsonwebtoken';
 import { RequestExt } from "../interfaces/request.interface";
+import { UserModel } from "../models/User";
 
 export class AuthController {
   static login = async ({ body }: Request, res: Response, next: NextFunction) => {
@@ -71,11 +72,10 @@ export class AuthController {
 
     const token = jwt.sign({ id: userId, username }, process.env.SEED!, { expiresIn: 60 * 60 })
 
+    const user = await UserModel.findById(userId)
+
     res.json({
-      user: {
-        id: userId,
-        username
-      },
+      user,
       token
     })
 
