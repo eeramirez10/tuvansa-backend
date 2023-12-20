@@ -54,4 +54,11 @@ export class InventoryModel {
 
     return paused;
   }
+
+  static getAll = async () => {
+    let inventoryDB = await Inventory.find({})
+      .populate({ path:'counts',  populate: { path: 'user', select: ['username', 'name'] }})
+      .populate({ path:'user', select: ['username', 'name']})
+    return inventoryDB
+  }
 }

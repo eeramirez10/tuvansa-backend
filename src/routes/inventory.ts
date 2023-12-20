@@ -5,6 +5,8 @@ export const inventoriesRouter = Router()
 
 inventoriesRouter.use(validateJWT)
 
+inventoriesRouter.get('/', InventoryController.getAll)
+
 inventoriesRouter.post('/', InventoryController.create)
 
 inventoriesRouter.patch('/:id', InventoryController.update)

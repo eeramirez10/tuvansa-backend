@@ -27,14 +27,19 @@ export class InventoryController {
         return res.status(400).json({ error: 'Inventory is paused' })
       }
 
+      console.log(inventoryDB)
+
       const count = await CountModel.create({ input: { count: inventory.count } })
 
       inventoryDB.counts = inventoryDB.counts.concat(count.id)
 
+      count.inventory = inventory
+      count.user = userId
+      
       inventoryDB.user = userId
       inventoryDB.paused = true
 
-      count.user = userId
+     
 
       await inventoryDB.save()
 
@@ -60,7 +65,7 @@ export class InventoryController {
 
     await inventoryDB.save()
 
-    res.json({ inventory: await InventoryModel.getById({id}) })
+    res.json({ inventory: await InventoryModel.getById({ id }) })
   }
 
   static getById = async (req: RequestExt, res: Response, next: NextFunction) => {
@@ -86,6 +91,18 @@ export class InventoryController {
       const inventory = await InventoryModel.getByIseq({ iseq })
 
       res.json({ inventory })
+
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  static getAll = async (req: RequestExt, res: Response, next: NextFunction) => {
+
+    try {
+      const inventories = await InventoryModel.getAll()
+
+      res.json({ inventories:{ items: inventories} })
 
     } catch (error) {
       next(error)

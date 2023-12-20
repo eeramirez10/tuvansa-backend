@@ -7,6 +7,17 @@ export const countSchema = new Schema<Count>({
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User'
+  },
+  inventory: {
+    iseq: { type: String },
+    cod: { type: String },
+    ean: { type: String },
+    quantity: { type: Number },
+    description: { type: String },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    },
   }
 }, {
   timestamps: true

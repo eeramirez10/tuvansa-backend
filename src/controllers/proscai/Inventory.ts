@@ -30,8 +30,15 @@ export class ProscaiInventoryController {
   static getByIseq = async (req: RequestExt, res: Response, next: NextFunction) => {
     const { iseq } = req.params
 
-    const inventory = await ProscaiInventoryModel.getByIseq({ iseq })
+    try {
+      const inventory = await ProscaiInventoryModel.getByIseq({ iseq })
 
-    res.json({ inventory })
+      res.json({ inventory })
+      
+    } catch (error) {
+      next(error)
+    }
+
+
   }
 }

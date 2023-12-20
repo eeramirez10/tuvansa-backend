@@ -13,6 +13,17 @@ export interface Inventory {
 export interface Count {
   count: number
   user?: ObjectId
+  inventory?: CountInventory
+}
+
+export interface CountInventory {
+  iseq: string
+  cod: string
+  ean: string
+  quantity: number
+  description: string
+  user?: ObjectId
+
 }
 
 export interface InventoryBody {

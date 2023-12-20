@@ -12,11 +12,11 @@ POST http://localhost:4000/api/auth/register
 Content-Type: application/json
 
 {
-  "username": "ccarretero",
-  "name": "Carolina",
-  "last": "Carretero",
+  "username": "ahuerta",
+  "name": "Acenet",
+  "last": "Huerta",
   "branchOffice": "Mexico",
-  "password": "912522Pop",
+  "password": "Tuvansa1118",
   "rol": "inventory"
 }
 
