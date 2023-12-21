@@ -1,7 +1,7 @@
 import { ObjectId, model } from 'mongoose';
-import { InventoryBody, type Inventory as IInventory } from '../interfaces/inventory.interface';
+import { InventoryBody, type Inventory as IInventory, InventoryId } from '../interfaces/inventory.interface';
 import { inventorySchema } from '../schemas/inventory';
-import { populate } from 'dotenv';
+
 
 const Inventory = model<IInventory>('Inventory', inventorySchema)
 
@@ -25,13 +25,13 @@ export class InventoryModel {
 
   }
 
-  static getById = async ({ id }: { id: string }) => {
+  static getById = async ({ id }: { id: string }): Promise<InventoryId> => {
     let inventoryDB = await Inventory.findById(id)
       .populate('user', ['username', 'name'])
       .populate({
         path: 'counts',
         populate: { path: 'user', select: ['username', 'name'] }
-      })
+      }) as InventoryId
 
 
     return inventoryDB

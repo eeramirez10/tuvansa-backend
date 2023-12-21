@@ -1,15 +1,15 @@
 ### create a Inventory
 POST http://localhost:4000/api/inventories
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmUyODE2Y2U1M2MyZTBkZTY5NzkwYiIsInVzZXJuYW1lIjoiZWVyYW1pcmV6IiwiaWF0IjoxNzAyODQzNjQ5LCJleHAiOjE3MDI4NDcyNDl9.P_qxfg-poevzvEo74r8CLVl03ljI3iG-_p5gsJUV4EQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmUyODE2Y2U1M2MyZTBkZTY5NzkwYiIsInVzZXJuYW1lIjoiZWVyYW1pcmV6IiwiaWF0IjoxNzAzMTMwODYxLCJleHAiOjE3MDMxMzgwNjF9.-Vspd9W2xmYWtG6HVeno7sziG1uHq1vsVYqKyUxLotY
 
 {
 
-  "iseq":"12562356",
-  "cod":"01298372ss",
-  "ean":"ACC/JU8sss9",
+  "iseq":"12562356ss",
+  "cod":"01298372ssss",
+  "ean":"ACC/JU8sss9ss",
   "description":" Tubo test",
-  "quantity":19.56,
+  "quantity":0,
   "count": 1289
 
 }

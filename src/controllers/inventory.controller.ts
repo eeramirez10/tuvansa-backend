@@ -3,6 +3,7 @@ import { ObjectId } from "mongoose";
 import { CountModel } from "../models/Count";
 import { InventoryModel } from "../models/Inventory";
 import { InventoryBody } from "../interfaces/inventory.interface";
+import { createInventory } from "../services/inventory";
 
 
 
@@ -19,34 +20,26 @@ export class InventoryController {
     const inventory = req.body
     const userId = req.userId
 
+    const newInventory: InventoryBody = {
+      iseq: inventory.iseq,
+      cod: inventory.cod,
+      ean: inventory.ean,
+      description: inventory.description,
+      quantity: inventory.quantity,
+      count: inventory.count,
+    }
+
     try {
 
-      const inventoryDB = await InventoryModel.create({ inventory })
+      const { error, inventory: inv } = await createInventory({ input: newInventory, userId })
 
-      if (inventoryDB.paused) {
-        return res.status(400).json({ error: 'Inventory is paused' })
+
+      if (error) {
+        return res.status(400).json({ error })
       }
 
-      console.log(inventoryDB)
+      res.status(201).json({ inv })
 
-      const count = await CountModel.create({ input: { count: inventory.count } })
-
-      inventoryDB.counts = inventoryDB.counts.concat(count.id)
-
-      count.inventory = inventory
-      count.user = userId
-      
-      inventoryDB.user = userId
-      inventoryDB.paused = true
-
-     
-
-      await inventoryDB.save()
-
-      await count.save()
-
-
-      res.json({ inventory: await InventoryModel.getById({ id: inventoryDB.id }) })
 
     } catch (error) {
       next(error)
@@ -102,7 +95,7 @@ export class InventoryController {
     try {
       const inventories = await InventoryModel.getAll()
 
-      res.json({ inventories:{ items: inventories} })
+      res.json({ inventories: { items: inventories } })
 
     } catch (error) {
       next(error)

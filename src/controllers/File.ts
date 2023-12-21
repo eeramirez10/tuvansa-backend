@@ -7,9 +7,6 @@ export class FileController {
 
     const { paymentId } = req.params
 
-
-    console.log(paymentId)
-
     res.json({ ok: true })
 
   }

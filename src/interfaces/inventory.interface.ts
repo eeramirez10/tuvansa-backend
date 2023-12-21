@@ -10,6 +10,10 @@ export interface Inventory {
   user: ObjectId
   paused: boolean
 }
+
+export interface InventoryId extends Inventory {
+  id: ObjectId
+}
 export interface Count {
   count: number
   user?: ObjectId
@@ -32,7 +36,6 @@ export interface InventoryBody {
   ean: string
   description: string
   quantity: number
-  paused: boolean
   count: number
 
 }
