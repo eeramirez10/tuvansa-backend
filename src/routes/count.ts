@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { validateJWT } from '../middlewares/validateJTW'
-import { CountController } from '../controllers/count.controller'
+import { CountController } from '../controllers/Count.controller'
 
 export const countsRouter = Router()
 

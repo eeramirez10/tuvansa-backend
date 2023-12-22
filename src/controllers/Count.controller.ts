@@ -1,7 +1,5 @@
 import { Request, NextFunction, Response } from "express";
-import { CountModel } from "../models/Count";
-import { type ObjectId } from "mongoose";
-import { deleteCount } from "../services/count";
+import {  deleteInventoryCount } from "../services/count";
 
 
 export class CountController {
@@ -11,7 +9,7 @@ export class CountController {
     const countId = req.params.countId as string
 
     try {
-      const count = await deleteCount({ inventoryId, countId})
+      const count = await deleteInventoryCount({ inventoryId, countId})
 
       res.json({ count })
       

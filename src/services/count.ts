@@ -3,7 +3,7 @@ import { InventoryModel } from "../models/Inventory"
 
 
 
-export const deleteCount = async ({ inventoryId, countId}: { inventoryId: string, countId: string}) => {
+export const deleteInventoryCount = async ({ inventoryId, countId}: { inventoryId: string, countId: string}) => {
 
   await CountModel.delete({ id: countId })
 

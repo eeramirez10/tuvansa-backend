@@ -4,6 +4,7 @@ import { CountModel } from "../models/Count";
 import { InventoryModel } from "../models/Inventory";
 import { InventoryBody } from "../interfaces/inventory.interface";
 import { createInventory } from "../services/inventory";
+import { deleteInventoryCount } from "../services/count";
 
 
 
@@ -101,9 +102,20 @@ export class InventoryController {
     }
   }
 
-  static deleteCount = (req: RequestExt, res: Response, next: NextFunction) => {
+  static deleteCount = async (req: RequestExt, res: Response, next: NextFunction) => {
     const id = req.params.id as string
-    const countId = req.params.id as string
+    const countId = req.params.countId as string
+
+    
+    try {
+      const inventory = await deleteInventoryCount({ inventoryId:id, countId})
+
+      res.json({ inventory })
+      
+    } catch (error) {
+      next(error)
+    }
+
   }
 
 

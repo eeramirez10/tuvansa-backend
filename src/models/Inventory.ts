@@ -1,4 +1,4 @@
-import { ObjectId, model } from 'mongoose';
+import { type ObjectId, model } from 'mongoose';
 import { InventoryBody, type Inventory as IInventory, InventoryId } from '../interfaces/inventory.interface';
 import { inventorySchema } from '../schemas/inventory';
 
@@ -57,13 +57,18 @@ export class InventoryModel {
 
   static getAll = async () => {
     let inventoryDB = await Inventory.find({})
-      .populate({ path:'counts',  populate: { path: 'user', select: ['username', 'name'] }})
-      .populate({ path:'user', select: ['username', 'name']})
+      .populate({ path: 'counts', populate: { path: 'user', select: ['username', 'name'] } })
+      .populate({ path: 'user', select: ['username', 'name'] })
     return inventoryDB
   }
 
-  static deleteCount = async ({ id, countId}: { id: string, countId: string} ) => {
-    let inventoryDB = await Inventory.updateOne({ id}, { $pull: { counts: countId }})
+  static deleteCount = async ({ id, countId }: { id: string, countId: string }) => {
+    let inventoryDB = await Inventory.updateOne({ _id: id }, {
+      $pull: {
+        counts: countId
+      }
+      
+    }, {new: true})
 
     return inventoryDB
   }
