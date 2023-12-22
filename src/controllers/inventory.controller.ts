@@ -33,12 +33,11 @@ export class InventoryController {
 
       const { error, inventory: inv } = await createInventory({ input: newInventory, userId })
 
-
       if (error) {
         return res.status(400).json({ error })
       }
 
-      res.status(201).json({ inv })
+      res.status(201).json({ inventory: inv })
 
 
     } catch (error) {
@@ -100,6 +99,11 @@ export class InventoryController {
     } catch (error) {
       next(error)
     }
+  }
+
+  static deleteCount = (req: RequestExt, res: Response, next: NextFunction) => {
+    const id = req.params.id as string
+    const countId = req.params.id as string
   }
 
 

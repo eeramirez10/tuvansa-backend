@@ -1,4 +1,4 @@
-import { model } from 'mongoose';
+import { ObjectId, model } from 'mongoose';
 import { type Docto } from '../interfaces/docto.interface';
 import { doctoSchema } from '../schemas/docto';
 
@@ -10,6 +10,14 @@ export class DoctoModel {
 
     return doctoDB
 
+
+  }
+
+  static delete = async ({ id}: { id: ObjectId }) => {
+
+    const doctoDB = await Docto.findByIdAndDelete(id)
+
+    return doctoDB
 
   }
 }

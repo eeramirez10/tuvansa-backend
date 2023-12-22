@@ -10,6 +10,7 @@ import { FileRouter } from './routes/file'
 import { join } from 'path';
 import { proscaiRouter } from './routes/proscai/customers'
 import { inventoriesRouter } from './routes/inventory'
+import { countsRouter } from './routes/count'
 const app = express()
 
 conectDB()
@@ -28,6 +29,7 @@ app.use('/api/payments', paymentsRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/files', FileRouter)
 app.use('/api/inventories', inventoriesRouter)
+app.use('/api/counts', countsRouter)
 app.use('/api/proscai', proscaiRouter)
 app.use(handleErrors)
 

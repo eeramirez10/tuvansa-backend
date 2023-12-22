@@ -61,4 +61,10 @@ export class InventoryModel {
       .populate({ path:'user', select: ['username', 'name']})
     return inventoryDB
   }
+
+  static deleteCount = async ({ id, countId}: { id: string, countId: string} ) => {
+    let inventoryDB = await Inventory.updateOne({ id}, { $pull: { counts: countId }})
+
+    return inventoryDB
+  }
 }

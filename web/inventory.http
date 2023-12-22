@@ -5,9 +5,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmUyODE2Y
 
 {
 
-  "iseq":"12562356ss",
-  "cod":"01298372ssss",
-  "ean":"ACC/JU8sss9ss",
+  "iseq":"12562356sswwwww",
+  "cod":"01298372sssswww",
+  "ean":"ACC/JU8sss9sswww",
   "description":" Tubo test",
   "quantity":0,
   "count": 1289
