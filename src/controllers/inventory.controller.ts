@@ -1,6 +1,5 @@
 import { Request, NextFunction, Response } from "express";
 import { ObjectId } from "mongoose";
-import { CountModel } from "../models/Count";
 import { InventoryModel } from "../models/Inventory";
 import { InventoryBody } from "../interfaces/inventory.interface";
 import { createInventory } from "../services/inventory";
@@ -28,6 +27,7 @@ export class InventoryController {
       description: inventory.description,
       quantity: inventory.quantity,
       count: inventory.count,
+      branchOffice: inventory.branchOffice
     }
 
     try {

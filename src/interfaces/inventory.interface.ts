@@ -9,6 +9,28 @@ export interface Inventory {
   counts: ObjectId[]
   user: ObjectId
   paused: boolean
+  branchOffice: {
+    name: BranchOffice
+    code: BranchOfficeCode
+  } 
+}
+
+export enum BranchOffice {
+  Mexico = 'Mexico',
+  Monterrey = 'Monterrey',
+  Veracruz = 'Veracruz',
+  Mexicali = 'Mexicali',
+  Queretaro = 'Queretaro',
+  Cancun = 'Cancun'
+}
+
+export enum BranchOfficeCode {
+  Mexico = '01',
+  Monterrey = '02',
+  Veracruz = '03',
+  Mexicali = '04',
+  Queretaro = '05',
+  Cancun = '06'
 }
 
 export interface InventoryId extends Inventory {
@@ -37,5 +59,9 @@ export interface InventoryBody {
   description: string
   quantity: number
   count: number
+  branchOffice: {
+    name: BranchOffice
+    code: BranchOfficeCode
+  } 
 
 }
