@@ -7,6 +7,7 @@ export interface Inventory {
   quantity: string
   description: string
   counts: ObjectId[]
+  shelters?: ObjectId[]
   user: ObjectId
   paused: boolean
   branchOffice: {

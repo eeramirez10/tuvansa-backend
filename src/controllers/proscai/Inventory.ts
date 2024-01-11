@@ -4,7 +4,7 @@ import { ProscaiInventoryModel } from "../../models/proscai/Inventory";
 
 interface RequestExt extends Request {
   query: { page: string, size: string, search: string, almacen: string }
-  params: { iseq: string, cod:string, almacen: string }
+  params: { iseq: string, cod: string, almacen: string, almseq: string }
 }
 
 export class ProscaiInventoryController {
@@ -32,7 +32,7 @@ export class ProscaiInventoryController {
       const inventory = await ProscaiInventoryModel.getByIseq({ iseq })
 
       res.json({ inventory })
-      
+
     } catch (error) {
       next(error)
     }
@@ -40,13 +40,13 @@ export class ProscaiInventoryController {
 
   }
 
-  static getUbication = async (req: RequestExt, res: Response, next: NextFunction) => {
-    const { cod } = req.params
+  static getShelter = async (req: RequestExt, res: Response, next: NextFunction) => {
+    const { almseq } = req.params
 
     try {
-      const ubications = await ProscaiInventoryModel.getUbication({ icod: cod})
+      const shelter = await ProscaiInventoryModel.getShelter({ almseq })
 
-      res.json({ ubications })
+      res.json({ shelter })
     } catch (error) {
       next(error)
     }

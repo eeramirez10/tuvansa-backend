@@ -17,4 +17,4 @@ proscaiRouter.get('/inventories', ProscaiInventoryController.getList)
 
 proscaiRouter.get('/inventories/:iseq', ProscaiInventoryController.getByIseq)
 
-proscaiRouter.get('/inventories/ubication/:cod', ProscaiInventoryController.getUbication )
+proscaiRouter.get('/inventories/shelter/:almseq', ProscaiInventoryController.getShelter )

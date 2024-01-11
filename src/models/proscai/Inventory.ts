@@ -11,7 +11,9 @@ interface GetListProps {
 
 export class ProscaiInventoryModel {
 
-  static getList = async ({ page = '1', size = '10', search = '', almacen = '01' }: GetListProps) => {
+  static getList = async (props: GetListProps) => {
+
+    const { page = '1', size = '10', search = '', almacen = '01' } = props
 
     const conexion = await connection()
 
@@ -20,7 +22,7 @@ export class ProscaiInventoryModel {
     const like = search ? `AND IEAN LIKE '${search}%' OR ICOD LIKE '${search}%'` : '';
 
     const [inventarios] = await conexion.query(`
-      SELECT  ALMNUM branchOffice, CAST(FINV.ISEQ AS CHAR) iseq,ICOD cod,IEAN ean,I2DESCR description, SUM(ALMCANT) AS quantity FROM FINV
+      SELECT  ALMNUM branchOffice, CAST(FINV.ISEQ AS CHAR) iseq,ICOD cod,IEAN ean,I2DESCR description, ALMCANT quantity FROM FINV
       LEFT JOIN FALM ON FALM.ISEQ=FINV.ISEQ
       LEFT JOIN FINV2 ON FINV2.I2KEY=FINV.ISEQ
       WHERE ALMNUM = ${almacen} and ITIPO=1 
@@ -35,15 +37,15 @@ export class ProscaiInventoryModel {
 
     const ubications = async (cod) => {
       const [ubications] = await conexion.query(`
-        SELECT  ALMNUM branchOffice, CAST(FALM.almseq AS CHAR)  iseq,ICOD cod,IEAN ean,I2DESCR description, SUM(ALMCANT) AS quantity FROM FINV
+        SELECT  ALMNUM warehouse, CAST(FALM.almseq AS CHAR)  almseq,ICOD cod,IEAN ean,I2DESCR description, SUM(ALMCANT) AS quantity FROM FINV
         LEFT JOIN FALM ON FALM.ISEQ=FINV.ISEQ
         LEFT JOIN FINV2 ON FINV2.I2KEY=FINV.ISEQ
-        WHERE ICOD = '${cod}' and ITIPO=1  and IEAN <> ''
+        WHERE ICOD = '${cod}' and ITIPO=1  and IEAN <> '' and ALMNUM <> ${almacen}
         GROUP BY ALMNUM,IEAN
       
       `) as Array<any>
 
-      return ubications.map(inv => ({ ...inv, branchOffice: { code: inv.branchOffice, name: "" } }))
+      return ubications.map(inv => ({ ...inv, warehouse: { code: inv.warehouse, name: "" } }))
     }
 
     // const countInventoriesPromise = conexion.query(`
@@ -64,7 +66,7 @@ export class ProscaiInventoryModel {
             name: BRANCH_OFFICE_VALUES[inv.branchOffice],
 
           },
-          ubications: await ubications(inv.cod)
+          shelters: await ubications(inv.cod)
         }))
       ),
       total: 0
@@ -76,7 +78,7 @@ export class ProscaiInventoryModel {
     const conexion = await connection()
 
     const [[inventory]]: any = await conexion.query(`
-      SELECT  ALMNUM branchOffice, CAST(FINV.ISEQ AS CHAR) iseq,ICOD cod,IEAN ean,I2DESCR description, SUM(ALMCANT) AS quantity FROM FINV
+      SELECT  ALMNUM branchOffice, CAST(FINV.ISEQ AS CHAR) iseq,ICOD cod,IEAN ean,I2DESCR description, ALMCANT AS quantity FROM FINV
       LEFT JOIN FALM ON FALM.ISEQ=FINV.ISEQ
       LEFT JOIN FINV2 ON FINV2.I2KEY=FINV.ISEQ
       WHERE ITIPO=1  and IEAN <> '' AND FINV.ISEQ = ${iseq}
@@ -95,19 +97,40 @@ export class ProscaiInventoryModel {
 
   }
 
-  static getUbication = async ({ icod = '01300958', }: { icod?: string }) => {
+  static getShelter = async ({ almseq }: { almseq: string }) => {
     const conexion = await connection()
 
-    const [ubications] = await conexion.query(`
-      SELECT  ALMNUM almacen, CAST(FINV.ISEQ AS CHAR) iseq,ICOD cod,IEAN ean,I2DESCR description, SUM(ALMCANT) AS quantity FROM FINV
+    const [inventarios] = await conexion.query(`
+    SELECT  ALMNUM branchOffice, CAST(FINV.ISEQ AS CHAR) iseq,ICOD cod,IEAN ean,I2DESCR description, SUM(ALMCANT) AS quantity FROM FINV
+    LEFT JOIN FALM ON FALM.ISEQ=FINV.ISEQ
+    LEFT JOIN FINV2 ON FINV2.I2KEY=FINV.ISEQ
+    WHERE FALM.almseq = ${almseq} and ITIPO=1 
+
+    GROUP BY IEAN
+    ORDER BY ICOD
+  
+  
+  `) as Array<any>
+
+    console.log({inventarios})
+
+    const [[shelter]] = await conexion.query(`
+      SELECT  ALMNUM almacen, CAST(FALM.almseq AS CHAR)  almseq,ICOD cod,IEAN ean,I2DESCR description, SUM(ALMCANT) AS quantity FROM FINV
       LEFT JOIN FALM ON FALM.ISEQ=FINV.ISEQ
       LEFT JOIN FINV2 ON FINV2.I2KEY=FINV.ISEQ
-      WHERE ICOD = '${icod}' and ITIPO=1  and IEAN <> ''
+      WHERE FALM.almseq = '${almseq}' and ITIPO=1  and IEAN <> ''
       GROUP BY ALMNUM,IEAN
     
-    `)
+    `) as Array<any>
 
-    return ubications
+    return {
+      ...shelter,
+      warehouse: {
+        code: shelter.almacen,
+        name: ""
+      }
+
+    }
 
   }
 

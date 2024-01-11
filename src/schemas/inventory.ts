@@ -15,6 +15,12 @@ export const inventorySchema = new Schema<Inventory>({
       ref: 'Count'
     }
   ],
+  shelters:[
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Shelter'
+    }
+  ],
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User'

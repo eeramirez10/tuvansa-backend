@@ -15,6 +15,7 @@ inventoriesRouter.get('/:id', InventoryController.getById)
 
 inventoriesRouter.get('/iseq/:iseq', InventoryController.getByIseq)
 
+
 inventoriesRouter.get('/:id', InventoryController.getById)
 
 inventoriesRouter.delete('/:id/count/:countId', InventoryController.deleteCount)

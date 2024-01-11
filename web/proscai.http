@@ -18,4 +18,4 @@ GET http://localhost:4000/api/proscai/inventories?search=01300113
 GET http://localhost:4000/api/proscai/inventories/21328
 
 ### Get Ubication
-GET http://localhost:4000/api/proscai/inventories/ubication/01300958
+GET http://localhost:4000/api/proscai/inventories/shelter/11030
