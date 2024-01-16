@@ -15,7 +15,7 @@ GET http://localhost:4000/api/proscai/inventories?almacen=01
 GET http://localhost:4000/api/proscai/inventories?search=01300113
 
 ###Get by ISEQ
-GET http://localhost:4000/api/proscai/inventories/21328
+GET http://localhost:4000/api/proscai/inventories/12539
 
 ### Get Ubication
-GET http://localhost:4000/api/proscai/inventories/shelter/11030
+GET http://localhost:4000/api/proscai/inventories/shelter/34326
