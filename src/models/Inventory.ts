@@ -38,6 +38,22 @@ export class InventoryModel {
   }
 
   static getByIseq = async ({ iseq }: { iseq: string }) => {
+
+    let inventoryDB = await Inventory.findOne({ iseq })
+      .populate('user', ['username', 'name'])
+      .populate({
+        path: 'counts',
+        populate: { path: 'user', select: ['username', 'name'] }
+      })
+
+
+    return inventoryDB
+  }
+
+  static getByIse = async ({ iseq }: { iseq: string }) => {
+
+
+
     let inventoryDB = await Inventory.findOne({ iseq })
       .populate('user', ['username', 'name'])
       .populate({
@@ -56,7 +72,10 @@ export class InventoryModel {
   }
 
   static getAll = async () => {
-    let inventoryDB = await Inventory.find({'counts.0': {$exists: true}})
+
+
+
+    let inventoryDB = await Inventory.find({ 'counts.0': { $exists: true } })
       .populate({ path: 'counts', populate: { path: 'user', select: ['username', 'name'] } })
       .populate({ path: 'user', select: ['username', 'name'] })
     return inventoryDB
@@ -67,8 +86,8 @@ export class InventoryModel {
       $pull: {
         counts: countId
       }
-      
-    }, {new: true})
+
+    }, { new: true })
 
     return inventoryDB
   }

@@ -1,10 +1,29 @@
 import { Request, NextFunction, Response } from "express";
 import { ObjectId } from "mongoose";
 import { InventoryModel } from "../models/Inventory";
-import { InventoryBody } from "../interfaces/inventory.interface";
+import { BranchOffice, Count, InventoryBody } from "../interfaces/inventory.interface";
 import { createInventory } from "../services/inventory";
 import { deleteInventoryCount } from "../services/count";
+import { ProscaiInventoryModel } from "../models/proscai/Inventory";
+import { Shelter } from "../interfaces/shelter.interface";
+import { UserId } from "../interfaces/user.types";
 
+export interface Inventory {
+  id: string
+  iseq: string
+  cod: string
+  ean: string
+  description: string
+  quantity: string
+  costo?: string
+  paused?: boolean
+  counts: Count[]
+  shelters?: Shelter
+  createdAt?: Date
+  updatedAt?: Date
+  user?: UserId
+  branchOffice: BranchOffice
+}
 
 
 interface RequestExt extends Request {
@@ -77,13 +96,48 @@ export class InventoryController {
 
   }
 
+  // static getByIseq = async (req: RequestExt, res: Response, next: NextFunction) => {
+  //   const iseq = req.params.iseq as string
+  //   try {
+
+  //     const inventory = await InventoryModel.getByIseq({ iseq })
+
+  //     res.json({ inventory })
+
+  //   } catch (error) {
+  //     next(error)
+  //   }
+  // }
+
   static getByIseq = async (req: RequestExt, res: Response, next: NextFunction) => {
     const iseq = req.params.iseq as string
+
     try {
 
-      const inventory = await InventoryModel.getByIseq({ iseq })
+      const [inventory,inventoryProscai ] = await Promise.all([InventoryModel.getByIseq({ iseq }), ProscaiInventoryModel.getByIseq({ iseq })])
 
-      res.json({ inventory })
+      let newinventory;
+
+      if (inventory) {
+        newinventory = {
+          ...inventory.toJSON(),
+          quantity: inventoryProscai.quantity,
+          costo: inventory.costo ?? inventoryProscai.costo
+        }
+      } else {
+        newinventory = {
+          ...inventoryProscai,
+          paused: false,
+          counts: [],
+          createdAt: null,
+          updatedAt: null,
+          user: null,
+          id: null
+        }
+      }
+
+
+      res.json({ inventory: newinventory })
 
     } catch (error) {
       next(error)
@@ -91,6 +145,8 @@ export class InventoryController {
   }
 
   static getAll = async (req: RequestExt, res: Response, next: NextFunction) => {
+
+    const { page, size, search, almacen } = req.query;
 
     try {
       const inventories = await InventoryModel.getAll()
@@ -106,12 +162,12 @@ export class InventoryController {
     const id = req.params.id as string
     const countId = req.params.countId as string
 
-    
+
     try {
-      const inventory = await deleteInventoryCount({ inventoryId:id, countId})
+      const inventory = await deleteInventoryCount({ inventoryId: id, countId })
 
       res.json({ inventory })
-      
+
     } catch (error) {
       next(error)
     }
