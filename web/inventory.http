@@ -1,26 +1,31 @@
 ### create a Inventory
 POST http://localhost:4000/api/inventories
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmUyODE2Y2U1M2MyZTBkZTY5NzkwYiIsInVzZXJuYW1lIjoiZWVyYW1pcmV6IiwiaWF0IjoxNzAzMTMwODYxLCJleHAiOjE3MDMxMzgwNjF9.-Vspd9W2xmYWtG6HVeno7sziG1uHq1vsVYqKyUxLotY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmUyODE2Y2U1M2MyZTBkZTY5NzkwYiIsInVzZXJuYW1lIjoiZWVyYW1pcmV6IiwiaWF0IjoxNzA1NDU3MTExLCJleHAiOjE3MDU0NjQzMTF9.ejdjrIKbrW6k0fR5eg_K4lZzdd-mOLFW1Ui8n7vFem4
 
 {
 
-  "iseq":"12562356sswwwww",
+  "iseq":"21180",
   "cod":"01298372sssswww",
   "ean":"ACC/JU8sss9sswww",
   "description":" Tubo test",
   "quantity":0,
-  "count": 1289
+  "count": 1,
+  "costo": 34.56,
+  "branchOffice":{
+    "code":"01",
+    "name":"Mexico"
+  }
 
 }
 
 ### Update
-PATCH http://localhost:4000/api/inventories/657e822c9ffbe509d27ca6c6
+PATCH http://localhost:4000/api/inventories/65a745e0af5a2ffb1027874a
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmUyODE2Y2U1M2MyZTBkZTY5NzkwYiIsInVzZXJuYW1lIjoiZWVyYW1pcmV6IiwiaWF0IjoxNzAyODM5NTMwLCJleHAiOjE3MDI4NDMxMzB9.W07TWR0Sx2uvn_AVxG7sElLiuagIraW-sHNrPA29HKc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmUyODE2Y2U1M2MyZTBkZTY5NzkwYiIsInVzZXJuYW1lIjoiZWVyYW1pcmV6IiwiaWF0IjoxNzA1NDU3MTExLCJleHAiOjE3MDU0NjQzMTF9.ejdjrIKbrW6k0fR5eg_K4lZzdd-mOLFW1Ui8n7vFem4
 
 {
-  "paused": true
+  "paused": false
 }
 
 ### Get inventory by id
@@ -33,4 +38,4 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmUyODE2Y
 
 ### Get All inventories
 GET http://localhost:4000/api/inventories
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmUyODE2Y2U1M2MyZTBkZTY5NzkwYiIsInVzZXJuYW1lIjoiZWVyYW1pcmV6IiwiaWF0IjoxNzAzMjY5NDU2LCJleHAiOjE3MDMyNzY2NTZ9.X0-KIme3znHYGcGZMz3d_itev7l25hRRRP6KCzM0o8w
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmUyODE2Y2U1M2MyZTBkZTY5NzkwYiIsInVzZXJuYW1lIjoiZWVyYW1pcmV6IiwiaWF0IjoxNzA1NTA4OTgyLCJleHAiOjE3MDU1MTYxODJ9.yT98nySj_DwlZxfCekDRgZy4qFvEOEWve_h_QZtAmsg

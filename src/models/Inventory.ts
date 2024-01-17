@@ -8,7 +8,8 @@ const Inventory = model<IInventory>('Inventory', inventorySchema)
 
 export class InventoryModel {
   static create = async ({ inventory }: { inventory: InventoryBody }) => {
-    let inventoryDB = await Inventory.findOne({ iseq: inventory.iseq })
+    let inventoryDB = await Inventory.findOneAndUpdate({ iseq: inventory.iseq, }, inventory, { new: true})
+    
     if (!inventoryDB) {
       inventoryDB = await Inventory.create(inventory)
     }

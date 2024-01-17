@@ -36,22 +36,11 @@ interface RequestExt extends Request {
 export class InventoryController {
   static create = async (req: RequestExt, res: Response, next: NextFunction) => {
 
-    const inventory = req.body
+    const { count, iseq } = req.body
     const userId = req.userId
 
-    const newInventory: InventoryBody = {
-      iseq: inventory.iseq,
-      cod: inventory.cod,
-      ean: inventory.ean,
-      description: inventory.description,
-      quantity: inventory.quantity,
-      count: inventory.count,
-      branchOffice: inventory.branchOffice
-    }
-
     try {
-
-      const { error, inventory: inv } = await createInventory({ input: newInventory, userId })
+      const { error, inventory: inv } = await createInventory({ count, iseq, userId })
 
       if (error) {
         return res.status(400).json({ error })
@@ -114,7 +103,9 @@ export class InventoryController {
 
     try {
 
-      const [inventory,inventoryProscai ] = await Promise.all([InventoryModel.getByIseq({ iseq }), ProscaiInventoryModel.getByIseq({ iseq })])
+      const [inventory, inventoryProscai] = await Promise.all(
+        [InventoryModel.getByIseq({ iseq }), ProscaiInventoryModel.getByIseq({ iseq })]
+      )
 
       let newinventory;
 
@@ -122,7 +113,7 @@ export class InventoryController {
         newinventory = {
           ...inventory.toJSON(),
           quantity: inventoryProscai.quantity,
-          costo: inventory.costo ?? inventoryProscai.costo
+          costo: inventoryProscai.costo
         }
       } else {
         newinventory = {

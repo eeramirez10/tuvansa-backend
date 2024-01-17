@@ -10,11 +10,11 @@ export interface Inventory {
   shelters?: ObjectId[]
   user: ObjectId
   paused: boolean,
-  costo: string
+  costo: Number
   branchOffice: {
     name: BranchOffice
     code: BranchOfficeCode
-  } 
+  }
 }
 
 export enum BranchOffice {
@@ -49,7 +49,8 @@ export interface CountInventory {
   cod: string
   ean: string
   quantity: number
-  description: string
+  description: string,
+  costo?: number
   user?: ObjectId
 
 }
@@ -60,10 +61,11 @@ export interface InventoryBody {
   ean: string
   description: string
   quantity: number
-  count: number
+  count: number,
+  costo?: number,
   branchOffice: {
     name: BranchOffice
     code: BranchOfficeCode
-  } 
+  }
 
 }

@@ -9,13 +9,14 @@ export const inventorySchema = new Schema<Inventory>({
   description: { type: String, required: true },
   quantity: { type: String, required: true },
   paused: { type: Boolean, required: true, default: false },
+  costo: { type: Schema.Types.Number },
   counts: [
     {
       type: Schema.Types.ObjectId,
       ref: 'Count'
     }
   ],
-  shelters:[
+  shelters: [
     {
       type: Schema.Types.ObjectId,
       ref: 'Shelter'
@@ -27,7 +28,7 @@ export const inventorySchema = new Schema<Inventory>({
   },
   branchOffice: {
     name: { type: Schema.Types.String, enum: BranchOffice, required: true },
-    code: { type: String, enum: BranchOfficeCode, required: true}
+    code: { type: String, enum: BranchOfficeCode, required: true }
   }
 }, {
   timestamps: true
