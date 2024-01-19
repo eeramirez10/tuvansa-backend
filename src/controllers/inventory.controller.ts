@@ -32,6 +32,13 @@ interface RequestExt extends Request {
 
 }
 
+interface ReqRelease extends Request {
+  userId: ObjectId;
+  body: {
+    paused: boolean
+  }
+}
+
 
 export class InventoryController {
   static create = async (req: RequestExt, res: Response, next: NextFunction) => {
@@ -68,6 +75,8 @@ export class InventoryController {
 
     res.json({ inventory: await InventoryModel.getById({ id }) })
   }
+
+
 
   static getById = async (req: RequestExt, res: Response, next: NextFunction) => {
     const id = req.params.id as string
@@ -164,6 +173,28 @@ export class InventoryController {
     }
 
   }
+
+
+
+  static releaseAll = async (req: ReqRelease, res: Response, next: NextFunction) => {
+
+    const paused = req.body.paused
+
+    try {
+     await InventoryModel.release({ paused })
+
+      res.json({
+        inventory: true
+      })
+      
+    } catch (error) {
+      next(error)
+    }
+
+
+  }
+
+
 
 
 }

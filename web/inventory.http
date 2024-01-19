@@ -39,3 +39,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmUyODE2Y
 ### Get All inventories
 GET http://localhost:4000/api/inventories
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmUyODE2Y2U1M2MyZTBkZTY5NzkwYiIsInVzZXJuYW1lIjoiZWVyYW1pcmV6IiwiaWF0IjoxNzA1NTA4OTgyLCJleHAiOjE3MDU1MTYxODJ9.yT98nySj_DwlZxfCekDRgZy4qFvEOEWve_h_QZtAmsg
+
+
+### Release Inventories
+PUT http://localhost:4000/api/inventories/releaseall
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmUyODE2Y2U1M2MyZTBkZTY5NzkwYiIsInVzZXJuYW1lIjoiZWVyYW1pcmV6IiwiaWF0IjoxNzA1Njg3ODI4LCJleHAiOjE3MDU2OTUwMjh9.SoUrOjcD_L8ZhldCdC8IVa_eAgU6-aJax2jHS8qnGAc
+
+{
+  "paused": false
+}
