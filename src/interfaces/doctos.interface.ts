@@ -1,9 +1,7 @@
-import { Supplier } from "./payment"
 import { BranchOffice } from "./inventory.interface"
-import { ObjectId } from "mongoose"
+import { Supplier } from "./payment"
 
-export interface Docto {
-  id: ObjectId | string
+export interface Doctos {
   idProscai: string
   factura: string
   ordenCompra: string

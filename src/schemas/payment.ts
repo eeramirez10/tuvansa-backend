@@ -7,10 +7,17 @@ export const paymentSchema = new Schema<IPayment>({
     type: Schema.Types.ObjectId,
     ref: 'Supplier'
   },
-  docto: { type: String, required: true },
-  paid: { type: Number },
-  comments: { type: String },
-  datePaid: { type: Date, required: true },
+  creditor: {
+    type: Schema.Types.ObjectId,
+    ref: 'Creditor'
+  },
+  coin: {
+    name: { type: Schema.Types.String, enum: ["pesos", "dolares"] },
+    code: { type: Schema.Types.String, enum: ["MXN", "USD"] }
+  },
+  category: { type: Schema.Types.String, enum: ["mantenimiento"] },
+  amount: { type: Schema.Types.Number, default: null },
+  datePaid: { type: Date, default: null },
   files: [{
     type: Schema.Types.ObjectId,
     ref: 'File'
@@ -18,6 +25,16 @@ export const paymentSchema = new Schema<IPayment>({
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User'
+  },
+  branchOffice: {
+    type: String,
+    required: true,
+    enum: ["Mexico", "Monterrey", "Veracruz", "Mexicali", "Queretaro", "Cancun"]
+  },
+  proscai: {
+    type: Schema.Types.ObjectId,
+    default: null,
+    ref: 'Docto'
   }
 }, {
   timestamps: true

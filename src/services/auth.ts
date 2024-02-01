@@ -20,9 +20,12 @@ export const loginUser = async (authUser: Auth): Promise<TokenResponse> => {
 
   const { username, password } = authUser
 
+ 
+  console.log(authUser)
 
   const user = await UserModel.findOne({ input: { username: username } })
 
+  console.log(user)
 
   if (!user) return { error: AUTH_HANDLE_ERRORS['NOT_FOUND_USER'] }
 

@@ -1,10 +1,8 @@
 import { NextFunction, Request, Response } from 'express'
 import { PaymentModel } from '../models/Payment'
-import { SupplierModel } from '../models/SupplierModel'
-import { RequestExt } from '../interfaces/request.interface';
-import { PaymentBody, type PaymenttBody } from '../interfaces/payment'
+import {  type PaymenttBody } from '../interfaces/payment'
 import { ObjectId } from 'mongoose';
-import { DoctoModel } from '../models/Docto';
+import { createNewPayment } from '../services/payment';
 
 interface RequesExt extends Request {
   userId: ObjectId;
@@ -17,34 +15,36 @@ export class PaymentController {
   static create = async (req: RequesExt, res: Response, next: NextFunction) => {
 
     const userId = req.userId
+
     try {
       const {
+        idProscai,
+        category,
         supplier,
-        doctos
+        creditor,
+        coin,
+        datePaid,
+        amount,
+        branchOffice
+        
       } = req.body as PaymenttBody
 
-      const supplierDB = await SupplierModel.create({ input: supplier })
+      const { payment, error } = await createNewPayment({
+        idProscai,
+        branchOffice,
+        category,
+        coin,
+        amount,
+        datePaid,
+        userId: userId,
+        supplier,
+        creditor
+      })
 
 
-      for (let docto of doctos) {
-
-        const doctoDB = await DoctoModel.create({ docto })
-      }
+      return res.json({ payment })
 
 
-
-      // const newPayment = {
-      //   supplier: supplierDB.id,
-      //   docto,
-      //   paid,
-      //   comments,
-      //   datePaid,
-      //   user: userId
-      // }
-
-      // const paymentDB = await PaymentModel.create({ input: newPayment })
-
-      // return res.json({ payment: paymentDB })
     } catch (error) {
       next(error)
     }
@@ -52,7 +52,7 @@ export class PaymentController {
 
   static getAll = async (_req: Request, res: Response, next: NextFunction) => {
     try {
-      const payments = await PaymentModel.getAlL()
+      const payments = await PaymentModel.getAll()
 
       return res.json({ payments })
     } catch (error) {
@@ -76,31 +76,31 @@ export class PaymentController {
 
   static update = async (req: Request, res: Response, next: NextFunction) => {
 
-    const { id } = req.params
-    const {
-      docto,
-      paid = 0,
-      comments = '',
-      datePaid,
-      idProscai,
-      supplierName
-    } = req.body
+    // const { id } = req.params
+    // const {
+    //   docto,
+    //   paid = 0,
+    //   comments = '',
+    //   datePaid,
+    //   idProscai,
+    //   supplierName
+    // } = req.body
 
-    const supplier = await SupplierModel.create({ input: { name: supplierName, idProscai } })
+    // const supplier = await SupplierModel.create({ input: { name: supplierName, idProscai } })
 
-    const updatedPayment = {
-      docto,
-      paid,
-      comments,
-      datePaid,
-      idProscai,
-      supplier: supplier.id
-    }
+    // const updatedPayment = {
+    //   docto,
+    //   paid,
+    //   comments,
+    //   datePaid,
+    //   idProscai,
+    //   supplier: supplier.id
+    // }
 
     try {
-      const payment = await PaymentModel.update({ id, input: updatedPayment })
+      // const payment = await PaymentModel.update({ id, input: updatedPayment })
 
-      res.status(201).json({ payment })
+      res.status(201).json({})
 
     } catch (error) {
       next(error)

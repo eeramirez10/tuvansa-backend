@@ -1,17 +1,26 @@
 import { type ObjectId } from "mongoose"
 import { IUser } from "./user.types"
 import { Docto } from "./docto.interface"
+import { BranchOffice } from "./inventory.interface"
+import { Creditor } from "./creditor.interface"
 
 
 export interface IPayment {
   id?: ObjectId
-  supplier: ObjectId
-  docto: string
-  paid?: number
+  supplier: ObjectId | null
+  creditor: ObjectId | null
+  amount: number
   comments?: string
+  branchOffice: BranchOffice
   datePaid: Date
-  files?: ObjectId []
+  files?: ObjectId[]
   user?: ObjectId
+  coin: {
+    name: string
+    code: string
+  },
+  category: string,
+  proscai: ObjectId | null
 }
 
 export interface Paymentt {
@@ -21,8 +30,17 @@ export interface Paymentt {
 }
 
 export interface PaymenttBody {
-  supplier: Supplier,
-  doctos: Docto[]
+  category: string
+  idProscai: string | null
+  supplier: Supplier | null
+  creditor:Creditor | null
+  coin:{
+    name: string
+    code: string
+  }
+  amount: number
+  branchOffice: BranchOffice
+  datePaid: Date
 }
 
 export interface PaymentBody {
@@ -34,7 +52,8 @@ export interface PaymentBody {
 }
 
 export interface Supplier {
-  idProscai: string
+  id: ObjectId
+  uid: string
   name: string
 }
 
