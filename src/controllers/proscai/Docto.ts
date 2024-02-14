@@ -4,13 +4,16 @@ import { DoctoProscaiModel } from "../../models/proscai/Docto"
 
 
 interface RequestExt {
-  params: { supplierId: string, paymentId: string }
+  params: { supplierId: string, paymentId: string },
+  query: { page: string, size: string, search: string }
 }
 
 export class DoctoController {
   static getAll = async (req: RequestExt, res: Response, next: NextFunction) => {
+
+    const { page, size, search } = req.query;
     try {
-      const doctos = await DoctoProscaiModel.getAll()
+      const doctos = await DoctoProscaiModel.getAll({ page, size, search })
 
       res.json({ doctos })
     } catch (error) {

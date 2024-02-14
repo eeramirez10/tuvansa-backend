@@ -1,19 +1,7 @@
-import { ObjectId, isObjectIdOrHexString, model } from 'mongoose'
+import { ObjectId, model } from 'mongoose'
 import { paymentSchema } from '../schemas/payment'
-import { File, IPayment, PaymentId } from '../interfaces/payment';
-import { connection } from '../config/mysql'
-import { BRANCH_OFFICE_VALUES_DMULTICIA } from '../helpers/branchOffice';
+import { IPayment, PaymentId } from '../interfaces/payment';
 
-const COIN_VALUES = {
-  1: {
-    code: 'MXN',
-    name: 'Pesos'
-  },
-  2: {
-    code: 'USD',
-    name: 'Dolares'
-  }
-}
 
 const Payment = model<IPayment>('Payment', paymentSchema)
 
@@ -24,46 +12,38 @@ export class PaymentModel {
     return payment
   }
 
-
   static getAll = async () => {
-
-    
 
     try {
       const payments = Payment.find({})
         .populate('supplier')
         .populate('creditor')
         .populate('proscai')
+        .populate('files')
 
       return payments
 
     } catch (error) {
       console.log(error)
-    } finally {
-
     }
-
-
 
   }
 
   static getById = async ({ id }: { id: string }) => {
-
-    const conexion = await connection()
 
     try {
 
       return await Payment.findById(id)
         .populate('files', { payment: 0 })
         .populate('supplier')
+        .populate('creditor')
+        .populate('proscai')
+        .populate('files')
 
 
     } catch (error) {
       console.log(error)
-    } finally {
-      conexion.destroy()
     }
-
 
   }
 

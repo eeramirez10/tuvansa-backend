@@ -1,13 +1,12 @@
 import { NextFunction, Request, Response } from 'express'
 import { PaymentModel } from '../models/Payment'
-import {  type PaymenttBody } from '../interfaces/payment'
+import { type PaymenttBody } from '../interfaces/payment'
 import { ObjectId } from 'mongoose';
-import { createNewPayment } from '../services/payment';
+import { createNewPayment, updatePayment } from '../services/payment';
 
 interface RequesExt extends Request {
   userId: ObjectId;
   body: PaymenttBody
-
 }
 
 
@@ -25,9 +24,12 @@ export class PaymentController {
         coin,
         datePaid,
         amount,
-        branchOffice
-        
+        branchOffice,
+        subCategory
+
       } = req.body as PaymenttBody
+
+      
 
       const { payment, error } = await createNewPayment({
         idProscai,
@@ -36,6 +38,7 @@ export class PaymentController {
         coin,
         amount,
         datePaid,
+        subCategory,
         userId: userId,
         supplier,
         creditor
@@ -74,33 +77,28 @@ export class PaymentController {
     }
   }
 
-  static update = async (req: Request, res: Response, next: NextFunction) => {
+  static update = async ({ params, body, userId }: RequesExt, res: Response, next: NextFunction) => {
+    const id = params.id as string
 
-    // const { id } = req.params
-    // const {
-    //   docto,
-    //   paid = 0,
-    //   comments = '',
-    //   datePaid,
-    //   idProscai,
-    //   supplierName
-    // } = req.body
 
-    // const supplier = await SupplierModel.create({ input: { name: supplierName, idProscai } })
+    const {
+      idProscai,
+      category,
+      supplier,
+      creditor,
+      coin,
+      datePaid,
+      amount,
+      branchOffice
 
-    // const updatedPayment = {
-    //   docto,
-    //   paid,
-    //   comments,
-    //   datePaid,
-    //   idProscai,
-    //   supplier: supplier.id
-    // }
+    } = body as PaymenttBody
+
+    const { payment, error } = await updatePayment({ input: { ...body, userId }, id })
 
     try {
       // const payment = await PaymentModel.update({ id, input: updatedPayment })
 
-      res.status(201).json({})
+      res.status(201).json({payment})
 
     } catch (error) {
       next(error)

@@ -60,6 +60,7 @@ export const registerUser = async (user: IUserBody) => {
 
 
   const newUser = {
+    ...user,
     username,
     passwordHash,
     name,

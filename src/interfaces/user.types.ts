@@ -5,6 +5,7 @@ export interface IUser {
   last: string
   branchOffice?: string
   rol?: string
+  gender?: string
 }
 
 export interface UserId extends IUser {

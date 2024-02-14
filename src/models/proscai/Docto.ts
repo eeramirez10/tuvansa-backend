@@ -1,6 +1,7 @@
 import mysql from 'mysql2/promise'
 import { BRANCH_OFFICE_VALUES_DMULTICIA } from '../../helpers/branchOffice'
 import { Docto } from '../../interfaces/docto.interface';
+import { getPagination } from '../../helpers/pagination';
 
 
 const COIN_VALUES = {
@@ -22,11 +23,24 @@ const connection = async () => await mysql.createConnection({
   database: 'tuvansa'
 })
 
+interface GetListProps {
+  page?: string
+  size?: string
+  search?: string
+  almacen?: string
+}
+
 
 
 export class DoctoProscaiModel {
 
-  static getAll = async () => {
+  static getAll = async (props: GetListProps) => {
+
+    const { page = '1', size = '5', search = '', almacen = '01' } = props
+
+    const { limit, offset } = getPagination(page, size)
+
+    const like = search ? `AND DREFER LIKE '${search}%' OR DNUM LIKE '${search}%' OR DREFERELLOS LIKE '${search}%'` : '';
 
     const conexion = await connection()
 
@@ -53,9 +67,10 @@ export class DoctoProscaiModel {
       WHERE DESFACT=2 AND DCANCELADA=0 AND PRVCOD<>'' 
       AND DMULTICIA = 1 
       AND (mid(DNUM,1,1) = 'R' OR mid(DNUM,1,1) = 'G')
+      ${like}
 
       order by dfecha desc
-      limit 50
+      limit ${limit}
     `) as Array<any>
 
       return payments.map((payment): Docto => {

@@ -27,10 +27,15 @@ export const userSchema = new Schema<IUser>({
   },
   rol: {
     type: String,
+  },
+  gender:{
+    type: String,
+    enum:['male', 'female', 'other'],
+    default: 'other'
   }
 
 }, {
-  timestamps: true
+  timestamps: true,
 })
 
 userSchema.set('toJSON', {

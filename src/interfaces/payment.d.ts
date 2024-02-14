@@ -20,6 +20,7 @@ export interface IPayment {
     code: string
   },
   category: string,
+  subCategory: string
   proscai: ObjectId | null
 }
 
@@ -31,6 +32,7 @@ export interface Paymentt {
 
 export interface PaymenttBody {
   category: string
+  subCategory: string
   idProscai: string | null
   supplier: Supplier | null
   creditor:Creditor | null
@@ -41,6 +43,10 @@ export interface PaymenttBody {
   amount: number
   branchOffice: BranchOffice
   datePaid: Date
+}
+
+export interface PaymentBodyId extends PaymentBody {
+  id: ObjectId
 }
 
 export interface PaymentBody {

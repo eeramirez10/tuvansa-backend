@@ -2,6 +2,22 @@ import { Schema } from 'mongoose'
 import mongooseUniqueValidator from 'mongoose-unique-validator'
 import { IPayment } from '../interfaces/payment'
 
+
+const categories = [
+  'mantenimiento',
+  'gasolina',
+  'viaticos',
+  'maquila',
+  'despensa',
+  'vigilancia',
+  'honorarios',
+  'consultoria',
+  'impuestos',
+  'fumigacion',
+  'servicios',
+  'vales',
+]
+
 export const paymentSchema = new Schema<IPayment>({
   supplier: {
     type: Schema.Types.ObjectId,
@@ -15,7 +31,8 @@ export const paymentSchema = new Schema<IPayment>({
     name: { type: Schema.Types.String, enum: ["pesos", "dolares"] },
     code: { type: Schema.Types.String, enum: ["MXN", "USD"] }
   },
-  category: { type: Schema.Types.String, enum: ["mantenimiento"] },
+  category: { type: Schema.Types.String, enum: categories },
+  subCategory: { type: Schema.Types.String },
   amount: { type: Schema.Types.Number, default: null },
   datePaid: { type: Date, default: null },
   files: [{

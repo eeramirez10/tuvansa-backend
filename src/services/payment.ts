@@ -14,6 +14,7 @@ interface PaymentResponse {
 }
 
 interface PaymentInput {
+  subCategory: string
   idProscai: string | null
   category: string
   supplier?: Supplier | null
@@ -33,8 +34,7 @@ export const getById = () => {
 
 }
 
-
-export const createNewPayment = async (input: PaymentInput): Promise<PaymentResponse> => {
+export const updatePayment = async ({ input, id }: { input: PaymentInput, id: string }): Promise<PaymentResponse> => {
 
   const {
     idProscai,
@@ -45,7 +45,8 @@ export const createNewPayment = async (input: PaymentInput): Promise<PaymentResp
     amount,
     datePaid,
     branchOffice,
-    userId
+    userId,
+    subCategory
   } = input
 
   const doctoProscaiDB = idProscai === null ? idProscai : await DoctoProscaiModel.getById({ id: idProscai })
@@ -53,7 +54,7 @@ export const createNewPayment = async (input: PaymentInput): Promise<PaymentResp
   let doctoDb;
 
   if (idProscai !== null) {
-      doctoDb = await DoctoModel.findOne({ idProscai })
+    doctoDb = await DoctoModel.findOne({ idProscai })
 
     if (!doctoDb) {
       doctoDb = await DoctoModel.create({ docto: doctoProscaiDB })
@@ -68,6 +69,58 @@ export const createNewPayment = async (input: PaymentInput): Promise<PaymentResp
     supplier: supplierDB === null ? null : supplierDB.id,
     creditor: creditorDB === null ? null : creditorDB.id,
     category,
+    coin,
+    amount,
+    datePaid,
+    subCategory,
+    branchOffice,
+    proscai: idProscai === null ? idProscai : doctoDb['id'],
+    user: userId
+  }
+
+  const paymentDB = await PaymentModel.update({ id, input: newPayment })
+
+  return { payment: paymentDB }
+
+}
+
+
+export const createNewPayment = async (input: PaymentInput): Promise<PaymentResponse> => {
+
+  const {
+    idProscai,
+    category,
+    supplier,
+    creditor,
+    coin,
+    amount,
+    datePaid,
+    branchOffice,
+    userId,
+    subCategory
+  } = input
+
+  const doctoProscaiDB = idProscai === null ? idProscai : await DoctoProscaiModel.getById({ id: idProscai })
+
+  let doctoDb;
+
+  if (idProscai !== null) {
+    doctoDb = await DoctoModel.findOne({ idProscai })
+
+    if (!doctoDb) {
+      doctoDb = await DoctoModel.create({ docto: doctoProscaiDB })
+    }
+  }
+
+  const supplierDB = supplier === null ? supplier : (await SupplierModel.create({ input: supplier }))
+
+  const creditorDB = creditor === null ? creditor : (await CreditorModel.create({ input: creditor }))
+
+  const newPayment: IPayment = {
+    supplier: supplierDB === null ? null : supplierDB.id,
+    creditor: creditorDB === null ? null : creditorDB.id,
+    category,
+    subCategory,
     coin,
     amount,
     datePaid,
