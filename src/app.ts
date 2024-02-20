@@ -11,6 +11,7 @@ import { join } from 'path';
 import { proscaiRouter } from './routes/proscai/customers'
 import { inventoriesRouter } from './routes/inventory'
 import { countsRouter } from './routes/count'
+import { competitionRouter } from './routes/competition'
 const app = express()
 
 conectDB()
@@ -31,6 +32,7 @@ app.use('/api/files', FileRouter)
 app.use('/api/inventories', inventoriesRouter)
 app.use('/api/counts', countsRouter)
 app.use('/api/proscai', proscaiRouter)
+app.use('/api/competitions', competitionRouter)
 app.use(handleErrors)
 
 export default app;
