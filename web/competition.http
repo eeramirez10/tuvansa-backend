@@ -1,0 +1,13 @@
+GET http://localhost:4000/api/competitions
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmUyODE2Y2U1M2MyZTBkZTY5NzkwYiIsInVzZXJuYW1lIjoiZWVyYW1pcmV6IiwiaWF0IjoxNzA3OTQ5NDkxLCJleHAiOjE3MDc5NTY2OTF9.zmew7y0Pas3AsAR5QAcZ2rtPbrKqela1mNd2zxX0kh8
+
+### Get by RFC EMISOR
+GET http://localhost:4000/api/competitions/LAV751101B63?EfectoComprobante=Ingreso
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmUyODE2Y2U1M2MyZTBkZTY5NzkwYiIsInVzZXJuYW1lIjoiZWVyYW1pcmV6IiwiaWF0IjoxNzA4Mzc5NTk1LCJleHAiOjE3MDgzODY3OTV9._fNpRU0w63lvkYMT3NxWolPdCAtyDZ2ti63WHyGVceI
+Content-Type: application/json
+
+### Get customers by RFC Emisor
+GET http://localhost:4000/api/competitions/customers/EGU800818ST2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmUyODE2Y2U1M2MyZTBkZTY5NzkwYiIsInVzZXJuYW1lIjoiZWVyYW1pcmV6IiwiaWF0IjoxNzA4MzA3OTY1LCJleHAiOjE3MDgzMTUxNjV9.rEKczb4pLhWobezTCWch_SUC4zYTzckegc0lcfLyu1Y
