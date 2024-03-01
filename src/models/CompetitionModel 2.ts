@@ -31,21 +31,14 @@ export class CompetitionModel {
     return competition
   }
 
-  static getByRfcEmisor = async ({
-    RfcEmisor = "",
-    EfectoComprobante = "Ingreso",
-    year = '2023'
-  }: {
-    RfcEmisor?: string,
-    EfectoComprobante?: EfectoComprobanteValues,
-    year?: string
-  }) => {
+  static getByRfcEmisor = async ({ RfcEmisor = "", EfectoComprobante = "Ingreso", year = "2022" }: { RfcEmisor?: string, EfectoComprobante?: EfectoComprobanteValues, year?: string }) => {
 
+    console.log(RfcEmisor)
     const competition = await Competition.aggregate([
       {
         $match: {
           $expr: {
-            $eq: [{ $year: "$FechaEmision" }, parseInt(year)]
+            $eq: [{ $year: "$FechaEmision" }, 2022]
           },
           RfcEmisor,
           EfectoComprobante,
@@ -148,15 +141,7 @@ export class CompetitionModel {
     return competition[0]
   }
 
-  static getCustomers = async ({
-    RfcEmisor = "",
-    EfectoComprobante = "Ingreso",
-    year = '2023'
-  }: {
-    RfcEmisor?: string,
-    EfectoComprobante?: EfectoComprobanteValues,
-    year?: string
-  }) => {
+  static getCustomers = async ({ RfcEmisor = "" }: { RfcEmisor?: string }) => {
 
 
 
@@ -164,10 +149,10 @@ export class CompetitionModel {
       {
         $match: {
           $expr: {
-            $eq: [{ $year: "$FechaEmision" }, parseInt(year)]
+            $eq: [{ $year: "$FechaEmision" }, 2023]
           },
           RfcEmisor,
-          EfectoComprobante,
+          EfectoComprobante: "Ingreso",
           EstadoComprobante: "Vigente"
         }
       },
@@ -234,7 +219,7 @@ export class CompetitionModel {
           'subTotalPorAnio': -1
         }
       }, {
-        $limit: 10
+        $limit: 20
       }
     ])
   }

@@ -22,11 +22,12 @@ export class CompetitionController {
   static getByRfcEmisor = async (req: Request, res: Response, next: NextFunction) => {
     const RfcEmisor = req.params.RfcEmisor as string
     const EfectoComprobante = req.query.EfectoComprobante as EfectoComprobanteValues
-    const year = req.query.year as string
+
+    console.log(EfectoComprobante)
 
     try {
 
-      const competition = await CompetitionModel.getByRfcEmisor({ RfcEmisor, EfectoComprobante, year })
+      const competition = await CompetitionModel.getByRfcEmisor({ RfcEmisor, EfectoComprobante })
       res.json({ competition })
     } catch (error) {
       next(error)
@@ -35,12 +36,10 @@ export class CompetitionController {
 
   static getCustomersByEmisor = async (req: Request, res: Response, next: NextFunction) => {
     const RfcEmisor = req.params.RfcEmisor as string
-    const EfectoComprobante = req.query.EfectoComprobante as EfectoComprobanteValues
-    const year = req.query.year as string
 
     try {
 
-      const customers = await CompetitionModel.getCustomers({ RfcEmisor, EfectoComprobante, year })
+      const customers = await CompetitionModel.getCustomers({ RfcEmisor })
       res.json({ customers })
     } catch (error) {
       next(error)
