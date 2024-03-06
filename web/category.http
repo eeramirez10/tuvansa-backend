@@ -1,4 +1,24 @@
 ### Get All categories
 GET http://localhost:4000/api/categories
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmUyODE2Y2U1M2MyZTBkZTY5NzkwYiIsInVzZXJuYW1lIjoiZWVyYW1pcmV6IiwiaWF0IjoxNzA3NDI0MDQ4LCJleHAiOjE3MDc0MzEyNDh9.TojmALkaIZbokN7IrSWKM85h_-Gb1WdfHXqgWNy4354
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmUyODE2Y2U1M2MyZTBkZTY5NzkwYiIsInVzZXJuYW1lIjoiZWVyYW1pcmV6IiwiaWF0IjoxNzA5NTkxMTI3LCJleHAiOjE3MDk1OTgzMjd9.aQiGX-lBjn5hvBofTK_ooPZbVlziMr8XuoFEJgEnEj0
+
+### Get All categories
+post http://localhost:4000/api/categories
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmUyODE2Y2U1M2MyZTBkZTY5NzkwYiIsInVzZXJuYW1lIjoiZWVyYW1pcmV6IiwiaWF0IjoxNzA5NTgwNDE2LCJleHAiOjE3MDk1ODc2MTZ9.dExlUYook9xDnT1OIhl4EdPsWUze6r3rITwUOMve9xo
+
+{
+  "name":"mantenimientos",
+  "subcategories":[
+    {
+      "name":"edificio"
+    },
+    {
+      "name":"automotriz"
+    },
+    {
+      "name":"estructural"
+    }
+  ]
+}

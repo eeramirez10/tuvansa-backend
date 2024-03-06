@@ -25,7 +25,7 @@ export class PaymentController {
         datePaid,
         amount,
         branchOffice,
-        subCategory
+        subcategory
 
       } = req.body as PaymenttBody
 
@@ -38,7 +38,7 @@ export class PaymentController {
         coin,
         amount,
         datePaid,
-        subCategory,
+        subcategory,
         userId: userId,
         supplier,
         creditor

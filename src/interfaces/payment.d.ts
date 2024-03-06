@@ -19,8 +19,8 @@ export interface IPayment {
     name: string
     code: string
   },
-  category: string,
-  subCategory: string
+  category: ObjectId,
+  subcategory: ObjectId
   proscai: ObjectId | null
 }
 
@@ -31,8 +31,8 @@ export interface Paymentt {
 }
 
 export interface PaymenttBody {
-  category: string
-  subCategory: string
+  category: ObjectId
+  subcategory: ObjectId
   idProscai: string | null
   supplier: Supplier | null
   creditor:Creditor | null

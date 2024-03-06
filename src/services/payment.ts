@@ -14,9 +14,9 @@ interface PaymentResponse {
 }
 
 interface PaymentInput {
-  subCategory: string
+  subcategory: ObjectId
   idProscai: string | null
-  category: string
+  category: ObjectId
   supplier?: Supplier | null
   creditor?: Creditor | null
   branchOffice: BranchOffice
@@ -46,7 +46,7 @@ export const updatePayment = async ({ input, id }: { input: PaymentInput, id: st
     datePaid,
     branchOffice,
     userId,
-    subCategory
+    subcategory
   } = input
 
   const doctoProscaiDB = idProscai === null ? idProscai : await DoctoProscaiModel.getById({ id: idProscai })
@@ -72,7 +72,7 @@ export const updatePayment = async ({ input, id }: { input: PaymentInput, id: st
     coin,
     amount,
     datePaid,
-    subCategory,
+    subcategory,
     branchOffice,
     proscai: idProscai === null ? idProscai : doctoDb['id'],
     user: userId
@@ -97,7 +97,7 @@ export const createNewPayment = async (input: PaymentInput): Promise<PaymentResp
     datePaid,
     branchOffice,
     userId,
-    subCategory
+    subcategory
   } = input
 
   const doctoProscaiDB = idProscai === null ? idProscai : await DoctoProscaiModel.getById({ id: idProscai })
@@ -120,7 +120,7 @@ export const createNewPayment = async (input: PaymentInput): Promise<PaymentResp
     supplier: supplierDB === null ? null : supplierDB.id,
     creditor: creditorDB === null ? null : creditorDB.id,
     category,
-    subCategory,
+    subcategory,
     coin,
     amount,
     datePaid,

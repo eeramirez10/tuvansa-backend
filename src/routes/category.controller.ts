@@ -4,4 +4,5 @@ import { CategoryController } from '../controllers/CategoryController'
 
 export const categoryRouter = Router()
 
-categoryRouter.get('/',validateJWT, CategoryController.getAll )
+categoryRouter.get('/', validateJWT, CategoryController.getAll)
+categoryRouter.post('/',validateJWT,  CategoryController.create)

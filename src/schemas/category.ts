@@ -1,11 +1,14 @@
-import { Schema } from "mongoose";
+import { Schema, ObjectId } from 'mongoose';
 import { Category } from "../interfaces/category";
 import mongooseUniqueValidator from 'mongoose-unique-validator'
 
 export const categorySchema = new Schema<Category>({
   name: { type: Schema.Types.String, required: true },
   subcategories: [
-    { name: { type: Schema.Types.String, required: true, unique: true }, }
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Subcategory'
+    }
   ]
 }, {
   timestamps: true

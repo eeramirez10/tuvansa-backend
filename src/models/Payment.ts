@@ -20,6 +20,8 @@ export class PaymentModel {
         .populate('creditor')
         .populate('proscai')
         .populate('files')
+        .populate('category', { subcategories: 0 })
+        .populate('subcategory')
 
       return payments
 
@@ -39,6 +41,9 @@ export class PaymentModel {
         .populate('creditor')
         .populate('proscai')
         .populate('files')
+        .populate('category', { subcategories: 0 })
+        .populate('subcategory', { category: 0 })
+
 
 
     } catch (error) {

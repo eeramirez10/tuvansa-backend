@@ -31,8 +31,8 @@ export const paymentSchema = new Schema<IPayment>({
     name: { type: Schema.Types.String, enum: ["pesos", "dolares"] },
     code: { type: Schema.Types.String, enum: ["MXN", "USD"] }
   },
-  category: { type: Schema.Types.String, enum: categories },
-  subCategory: { type: Schema.Types.String },
+  category: { type: Schema.Types.ObjectId, ref: "Category", required: true },
+  subcategory: { type: Schema.Types.ObjectId, ref: "Subcategory", required: true },
   amount: { type: Schema.Types.Number, default: null },
   datePaid: { type: Date, default: null },
   files: [{
