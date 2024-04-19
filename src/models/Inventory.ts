@@ -79,6 +79,7 @@ export class InventoryModel {
     let inventoryDB = await Inventory.find({ 'counts.0': { $exists: true } })
       .populate({ path: 'counts', populate: { path: 'user', select: ['username', 'name'] } })
       .populate({ path: 'user', select: ['username', 'name'] })
+      .limit(2)
     return inventoryDB
   }
 

@@ -5,9 +5,15 @@ import { competitionSchema } from '../schemas/competition';
 
 const Competition = model<ICompetition>('Competition', competitionSchema)
 
+const CompetitionRecibidas = model<ICompetition>('Competitionrecibidas', competitionSchema)
+
 export class CompetitionModel {
 
   static getAll = async () => {
+
+    // const competitionRecibidas = await CompetitionRecibidas.find({})
+
+    // console.log(competitionRecibidas)
     const competition = await Competition.aggregate([
       {
         $project: {
@@ -238,6 +244,191 @@ export class CompetitionModel {
       }
     ])
   }
+
+  static getRecibidasByRfcReceptor = async ({
+    RfcReceptor = "EGU800818ST2",
+    EfectoComprobante = "Ingreso",
+    year = '2023'
+  }: {
+    RfcReceptor?: string,
+    EfectoComprobante?: EfectoComprobanteValues,
+    year?: string
+  }) => {
+
+    console.log(RfcReceptor)
+
+    return await CompetitionRecibidas.aggregate([
+      {
+        $match: {
+          $expr: {
+            $eq: [{ $year: "$FechaEmision" }, parseInt(year)]
+          },
+          RfcReceptor,
+          EfectoComprobante,
+          EstadoComprobante: "Vigente"
+        }
+      },
+      {
+        '$project': {
+          'RfcEmisor': '$RfcEmisor',
+          'NombreRazonSocialEmisor': '$NombreRazonSocialEmisor',
+          'EstadoComprobante': '$EstadoComprobante',
+          'EfectoComprobante': '$EfectoComprobante',
+          'anio': {
+            '$year': '$FechaEmision'
+          },
+          mes: { $month: "$FechaEmision" },
+          'Total': 1,
+          'Subtotal': 1
+        }
+      }, {
+        '$group': {
+          '_id': {
+            'anio': '$anio',
+            'RfcEmisor': '$RfcEmisor',
+          },
+          'NombreRazonSocialEmisor': {
+            '$addToSet': '$NombreRazonSocialEmisor'
+          },
+          'EstadoComprobante': {
+            '$addToSet': '$EstadoComprobante'
+          },
+          'EfectoComprobante': {
+            '$addToSet': '$EfectoComprobante'
+          },
+          'totalPorAnio': {
+            '$sum': '$Total'
+          },
+          'subTotalPorAnio': {
+            '$sum': '$Subtotal'
+          }
+        }
+      }, {
+        '$project': {
+          '_id': 0,
+          'anio': '$_id.anio',
+          'RfcEmisor': '$_id.RfcEmisor',
+          'NombreRazonSocialEmisor': {
+            '$arrayElemAt': [
+              '$NombreRazonSocialEmisor', 0
+            ]
+          },
+          'EstadoComprobante': {
+            '$arrayElemAt': [
+              '$NombreRazonSocialEmisor', 0
+            ]
+          },
+          'EfectoComprobante': {
+            '$arrayElemAt': [
+              '$EfectoComprobante', 0
+            ]
+          },
+          'totalPorAnio': '$totalPorAnio',
+          'subTotalPorAnio': '$subTotalPorAnio'
+        }
+      }, {
+        '$sort': {
+          'subTotalPorAnio': -1
+        }
+      }, {
+        $limit: 10
+      }
+    ])
+
+  }
+
+  static getRecibidasByRfcEmisor = async ({
+    RfcEmisor = "",
+    EfectoComprobante = "Ingreso",
+    year = '2023'
+  }: {
+    RfcEmisor?: string,
+    EfectoComprobante?: EfectoComprobanteValues,
+    year?: string
+  }) => {
+
+
+
+    return await CompetitionRecibidas.aggregate([
+      {
+        $match: {
+          $expr: {
+            $eq: [{ $year: "$FechaEmision" }, parseInt(year)]
+          },
+          RfcEmisor,
+          EfectoComprobante,
+          EstadoComprobante: "Vigente"
+        }
+      },
+      {
+        '$project': {
+          'RfcReceptor': '$RfcReceptor',
+          'NombreRazonSocialReceptor': '$NombreRazonSocialReceptor',
+          'EstadoComprobante': '$EstadoComprobante',
+          'EfectoComprobante': '$EfectoComprobante',
+          'anio': {
+            '$year': '$FechaEmision'
+          },
+          mes: { $month: "$FechaEmision" },
+          'Total': 1,
+          'Subtotal': 1
+        }
+      }, {
+        '$group': {
+          '_id': {
+            'anio': '$anio',
+            'RfcReceptor': '$RfcReceptor',
+          },
+          'NombreRazonSocialReceptor': {
+            '$addToSet': '$NombreRazonSocialReceptor'
+          },
+          'EstadoComprobante': {
+            '$addToSet': '$EstadoComprobante'
+          },
+          'EfectoComprobante': {
+            '$addToSet': '$EfectoComprobante'
+          },
+          'totalPorAnio': {
+            '$sum': '$Total'
+          },
+          'subTotalPorAnio': {
+            '$sum': '$Subtotal'
+          }
+        }
+      }, {
+        '$project': {
+          '_id': 0,
+          'anio': '$_id.anio',
+          'RfcReceptor': '$_id.RfcReceptor',
+          'NombreRazonSocialReceptor': {
+            '$arrayElemAt': [
+              '$NombreRazonSocialReceptor', 0
+            ]
+          },
+          'EstadoComprobante': {
+            '$arrayElemAt': [
+              '$NombreRazonSocialReceptor', 0
+            ]
+          },
+          'EfectoComprobante': {
+            '$arrayElemAt': [
+              '$EfectoComprobante', 0
+            ]
+          },
+          'totalPorAnio': '$totalPorAnio',
+          'subTotalPorAnio': '$subTotalPorAnio'
+        }
+      }, {
+        '$sort': {
+          'subTotalPorAnio': -1
+        }
+      }, {
+        $limit: 10
+      }
+    ])
+  }
+
+  
 }
 
 
