@@ -8,7 +8,7 @@ const Subcategory = model<Subcategory>('Subcategory', subcategorySchema)
 
 export class SubcategoryModel {
   static create = async ({ name, category }: { name: string, category?: string }) => {
-    const subcategory = await Subcategory.create({ name, category })
+    const subcategory = await Subcategory.create({  name: name.toUpperCase(), category })
 
     return subcategory
   }
@@ -18,9 +18,15 @@ export class SubcategoryModel {
     return new Subcategory({ name, category })
   }
 
-  static update = async ({id,  category }: { id: string,  category?: string }) => {
+  static update = async ({id,  category, name }: { id: string,  category?: string, name?: string }) => {
 
-    return await Subcategory.findByIdAndUpdate(id, { category })
+    try {
+      return await Subcategory.findByIdAndUpdate(id, { category,  name: name.toUpperCase() })
+    } catch (error) {
+      console.log(error)
+    }
+
+   
   }
 
 }

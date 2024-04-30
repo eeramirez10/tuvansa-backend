@@ -6,6 +6,7 @@ import { DoctoController } from "../../controllers/proscai/Docto";
 import { ProscaiInventoryController } from '../../controllers/proscai/Inventory';
 import { CreditorController } from "../../controllers/proscai/Creditor";
 import { SalesController } from "../../controllers/proscai/SalesController";
+import { ReceptionController } from "../../controllers/proscai/ReceptionController";
 
 export const proscaiRouter = Router()
 
@@ -23,8 +24,10 @@ proscaiRouter.get('/inventories', ProscaiInventoryController.getList)
 
 proscaiRouter.get('/inventories/:iseq', ProscaiInventoryController.getByIseq)
 
-proscaiRouter.get('/inventories/shelter/:almseq', ProscaiInventoryController.getShelter )
+proscaiRouter.get('/inventories/shelter/:almseq', ProscaiInventoryController.getShelter)
 
-proscaiRouter.get('/sales', SalesController.getSales )
+proscaiRouter.get('/sales', SalesController.getSales)
+
+proscaiRouter.get('/receptions', ReceptionController.getList)
 
 

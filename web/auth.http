@@ -18,7 +18,8 @@ Content-Type: application/json
   "branchOffice": "Mexico",
   "password": "Tuvansa2024",
   "rol": "user",
-  "gender": "female"
+  "gender": "female",
+  "pagePermission":["payments"]
 }
 
 ### renew token 

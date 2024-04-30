@@ -29,3 +29,6 @@ GET http://localhost:4000/api/proscai/creditors?search=Erick
 
 ### Get Sales
 GET http://localhost:4000/api/proscai/sales
+
+### Get Receptions
+GET http://localhost:4000/api/proscai/receptions

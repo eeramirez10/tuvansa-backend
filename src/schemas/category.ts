@@ -3,7 +3,7 @@ import { Category } from "../interfaces/category";
 import mongooseUniqueValidator from 'mongoose-unique-validator'
 
 export const categorySchema = new Schema<Category>({
-  name: { type: Schema.Types.String, required: true },
+  name: { type: Schema.Types.String, required: true, unique: true },
   subcategories: [
     {
       type: Schema.Types.ObjectId,

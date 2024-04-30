@@ -23,16 +23,17 @@ export const userSchema = new Schema<IUser>({
   branchOffice: {
     type: String,
     required: true,
-    enum: ["Mexico","Monterrey", "Veracruz", "Mexicali", "Queretaro", "Cancun"]
+    enum: ["Mexico", "Monterrey", "Veracruz", "Mexicali", "Queretaro", "Cancun"]
   },
   rol: {
     type: String,
   },
-  gender:{
+  gender: {
     type: String,
-    enum:['male', 'female', 'other'],
+    enum: ['male', 'female', 'other'],
     default: 'other'
-  }
+  },
+  pagePermission: [{ type: String }]
 
 }, {
   timestamps: true,

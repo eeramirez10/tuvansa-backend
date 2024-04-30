@@ -1,13 +1,8 @@
-import mysql from 'mysql2/promise';
 import { type Creditor } from '../../interfaces/creditor.interface';
 import { creditorSchema } from '../../schemas/creditor';
-import { model } from 'mongoose';
-const connection = async () => await mysql.createConnection({
-  host: 'tuvansa.dyndns.org',
-  user: 'consultas',
-  password: 'consultas',
-  database: 'tuvansa'
-})
+import {  model } from 'mongoose';
+import { connection } from '../../config/mysql';
+
 
 const Creditor = model<Creditor>('Creditor',creditorSchema) 
 
