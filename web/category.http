@@ -1,0 +1,56 @@
+### Get All categories
+GET http://localhost:4000/api/categories
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmUyODE2Y2U1M2MyZTBkZTY5NzkwYiIsInVzZXJuYW1lIjoiZWVyYW1pcmV6IiwiaWF0IjoxNzEzOTc4NzAxLCJleHAiOjE3MTM5ODU5MDF9.WbfNj-C6EGKzfeYXm81Iny2eiaHUVgHWddbVu4kNG6g
+
+
+### Get by Id
+GET http://localhost:4000/api/categories/66281b361a9417067d8d44ab
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmUyODE2Y2U1M2MyZTBkZTY5NzkwYiIsInVzZXJuYW1lIjoiZWVyYW1pcmV6IiwiaWF0IjoxNzEzOTg2NTAxLCJleHAiOjE3MTM5OTM3MDF9.mVJausPSDG_x-4aCSrCu2XUcRjMzjP-0DirLZZFntGc
+
+### Get All categories
+post http://localhost:4000/api/categories
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmUyODE2Y2U1M2MyZTBkZTY5NzkwYiIsInVzZXJuYW1lIjoiZWVyYW1pcmV6IiwiaWF0IjoxNzEzOTAyMDI1LCJleHAiOjE3MTM5MDkyMjV9.0_MuSUe2LAaS1HF8ZlZGWelcd6Ywa1C9z9huFKOkXZY
+
+{
+  "name":"Impueestos",
+  "subcategories":[
+    {
+      "name":"SAT"
+    },
+    {
+      "name":"IMS"
+    }
+  ]
+}
+
+
+### Edit category 
+put http://localhost:4000/api/categories/66281b361a9417067d8d44ab
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmUyODE2Y2U1M2MyZTBkZTY5NzkwYiIsInVzZXJuYW1lIjoiZWVyYW1pcmV6IiwiaWF0IjoxNzEzOTg2MDM3LCJleHAiOjE3MTM5OTMyMzd9.Txo4NObkGKryLXTsmokANRJMWQdQIx7GIU4JSipEKF4
+
+{
+    "name": "IMPUESTOS",
+    "subcategories": [
+        {
+            "name": "SAT",
+            "createdAt": "2024-04-23T20:33:58.603Z",
+            "updatedAt": "2024-04-23T20:33:58.756Z",
+            "category": "66281b361a9417067d8d44ab",
+            "id": "66281b361a9417067d8d44a5"
+        },
+        {
+            "name": "IMS",
+            "createdAt": "2024-04-23T20:33:58.610Z",
+            "updatedAt": "2024-04-23T20:33:58.756Z",
+            "category": "66281b361a9417067d8d44ab",
+            "id": "66281b361a9417067d8d44a6"
+        }
+    ],
+    "createdAt": "2024-04-23T20:33:58.697Z",
+    "updatedAt": "2024-04-23T20:33:58.697Z",
+    "id": "66281b361a9417067d8d44ab"
+}

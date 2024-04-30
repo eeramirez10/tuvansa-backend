@@ -3,7 +3,7 @@
 GET http://localhost:4000/api/proscai/customers?search=t
 
 ### Get suppliers by name 
-GET http://localhost:4000/api/proscai/suppliers?search=EN
+GET http://localhost:4000/api/proscai/suppliers?search=Erick
 
 ### GET DOCTOS BY SUPPLIER
 GET http://localhost:4000/api/proscai/doctos/30000
@@ -19,3 +19,16 @@ GET http://localhost:4000/api/proscai/inventories/12539
 
 ### Get Ubication
 GET http://localhost:4000/api/proscai/inventories/shelter/34326
+
+### Get docto by id
+GET http://localhost:4000/api/proscai/doctos/290401/detail
+
+### Get Creditors by name 
+GET http://localhost:4000/api/proscai/creditors?search=Erick
+
+
+### Get Sales
+GET http://localhost:4000/api/proscai/sales
+
+### Get Receptions
+GET http://localhost:4000/api/proscai/receptions

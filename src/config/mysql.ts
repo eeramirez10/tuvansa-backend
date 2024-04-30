@@ -8,5 +8,5 @@ export const connection = async () =>  await mysql.createConnection({
   database: process.env.MYSQL_DATABASE
 })
 
-connection()
+
  

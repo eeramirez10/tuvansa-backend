@@ -12,12 +12,14 @@ POST http://localhost:4000/api/auth/register
 Content-Type: application/json
 
 {
-  "username": "ahuerta",
-  "name": "Acenet",
-  "last": "Huerta",
+  "username": "dvalverde",
+  "name": "Diana",
+  "last": "Valverde",
   "branchOffice": "Mexico",
-  "password": "Tuvansa1118",
-  "rol": "inventory"
+  "password": "Tuvansa2024",
+  "rol": "user",
+  "gender": "female",
+  "pagePermission":["payments"]
 }
 
 ### renew token 

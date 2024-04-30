@@ -49,6 +49,7 @@ export class AuthController {
       ...body,
       rol: body.rol || ''
     }
+    console.log(user)
 
     try {
       const newUser = await registerUser(user)

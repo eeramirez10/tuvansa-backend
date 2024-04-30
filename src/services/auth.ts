@@ -20,9 +20,12 @@ export const loginUser = async (authUser: Auth): Promise<TokenResponse> => {
 
   const { username, password } = authUser
 
+ 
+  console.log(authUser)
 
   const user = await UserModel.findOne({ input: { username: username } })
 
+  console.log(user)
 
   if (!user) return { error: AUTH_HANDLE_ERRORS['NOT_FOUND_USER'] }
 
@@ -47,7 +50,7 @@ export const loginUser = async (authUser: Auth): Promise<TokenResponse> => {
 
 export const registerUser = async (user: IUserBody) => {
 
-  const { username, password, name, last, branchOffice, rol } = user
+  const { username, password, name, last, branchOffice, rol, pagePermission } = user
 
   const findUser = await UserModel.findOne({ input: { username } })
 
@@ -57,12 +60,15 @@ export const registerUser = async (user: IUserBody) => {
 
 
   const newUser = {
+    ...user,
     username,
     passwordHash,
     name,
     last,
     branchOffice,
-    rol
+    rol,
+    user,
+    pagePermission
   }
 
   const userDB = UserModel.create({ input: newUser })

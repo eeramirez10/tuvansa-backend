@@ -3,6 +3,7 @@ import { UserModel } from '../models/User'
 import bcrypt from 'bcrypt'
 import { type ObjectId } from 'mongoose'
 import { json } from 'stream/consumers'
+import { IUser } from '../interfaces/user.types'
 
 export class UserController {
   static create = async (req: Request, res: Response, next: NextFunction) => {
@@ -20,13 +21,14 @@ export class UserController {
 
       const passwordHash = await bcrypt.hash(password, saltRounds)
 
-      const newUser = {
+      const newUser: IUser = {
         username,
         name,
         last,
         passwordHash,
         branchOffice,
-        rol
+        rol,
+        pagePermission: []
       }
 
       const user = await UserModel.create({ input: newUser })
