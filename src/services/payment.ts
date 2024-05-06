@@ -116,11 +116,13 @@ export const createNewPayment = async (input: PaymentInput): Promise<PaymentResp
 
   const creditorDB = creditor === null ? creditor : (await CreditorModel.create({ input: creditor }))
 
+  console.log(subcategory)
+
   const newPayment: IPayment = {
     supplier: supplierDB === null ? null : supplierDB.id,
     creditor: creditorDB === null ? null : creditorDB.id,
     category,
-    subcategory,
+    subcategory: subcategory ?? null,
     coin,
     amount,
     datePaid,

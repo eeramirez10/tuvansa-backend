@@ -11,13 +11,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmUyODE2Y
 ### Create Payment
 POST http://localhost:4000/api/payments
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmUyODE2Y2U1M2MyZTBkZTY5NzkwYiIsInVzZXJuYW1lIjoiZWVyYW1pcmV6IiwiaWF0IjoxNzA5NTkxMTI3LCJleHAiOjE3MDk1OTgzMjd9.aQiGX-lBjn5hvBofTK_ooPZbVlziMr8XuoFEJgEnEj0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmUyODE2Y2U1M2MyZTBkZTY5NzkwYiIsInVzZXJuYW1lIjoiZWVyYW1pcmV6IiwiaWF0IjoxNzE0NzU0NzgwLCJleHAiOjE3MTQ3NjE5ODB9.tDd2ES6dNOrpD2kw3Lc63iLRA1zgvqSUkDEVOzHIumY
 
 {
   "idProscai": "291585",
   "amount": 45,
   "category": "65e62f1f885b78a2e49b3d41",
-  "subcategory": "65e62f1f885b78a2e49b3d3a",
+  "subcategory": null,
   "creditor":{
     "name": "TAMSA",
     "uid": "30000"

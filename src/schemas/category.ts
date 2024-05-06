@@ -7,7 +7,7 @@ export const categorySchema = new Schema<Category>({
   subcategories: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Subcategory'
+      ref: 'Subcategory',
     }
   ]
 }, {

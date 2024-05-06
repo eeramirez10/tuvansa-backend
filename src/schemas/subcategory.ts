@@ -4,7 +4,7 @@ import { Subcategory } from "../interfaces/subcategory.interface";
 
 
 export const subcategorySchema = new Schema<Subcategory>({
-  name: { type: Schema.Types.String, required: true },
+  name: { type: Schema.Types.String  },
   category: { type: Schema.Types.ObjectId, ref: "Category" }
 }, {
   timestamps: true

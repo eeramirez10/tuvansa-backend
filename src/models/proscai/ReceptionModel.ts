@@ -1,5 +1,6 @@
 import { connection } from "../../config/mysql"
 import { getPagination } from "../../helpers/pagination"
+import fs from 'node:fs'
 
 interface Options {
   page?: string
@@ -15,6 +16,8 @@ export class ReceptionModel {
     const { page = '1', size = '10', search = '' } = options
 
     const { limit, offset } = getPagination(page, size)
+
+    const files = fs.readdirSync('./src/uploads')
 
     const like = search ? `AND dnum LIKE '${search}%' OR dreferellos LIKE '${search}%'` : '';
 
@@ -36,9 +39,16 @@ export class ReceptionModel {
 
     const con = await connection()
 
-    const [results] = await con.query(query);
+    const [results] = await con.query(query) as Array<any>
 
-    return results
+    const res = results.map(reception =>
+    ({
+      ...reception,
+      hasFile: files.some(file => file === `${reception.dnum}.pdf`)
+    })
+    )
+
+    return res
 
   }
 

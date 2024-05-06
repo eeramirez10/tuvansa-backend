@@ -29,7 +29,7 @@ export class PaymentController {
 
       } = req.body as PaymenttBody
 
-      
+
 
       const { payment, error } = await createNewPayment({
         idProscai,
@@ -98,7 +98,7 @@ export class PaymentController {
     try {
       // const payment = await PaymentModel.update({ id, input: updatedPayment })
 
-      res.status(201).json({payment})
+      res.status(201).json({ payment })
 
     } catch (error) {
       next(error)

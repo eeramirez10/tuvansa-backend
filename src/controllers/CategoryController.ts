@@ -34,6 +34,7 @@ export class CategoryController {
 
     const category = req.body
 
+    console.log(category)
 
     try {
 
