@@ -17,7 +17,7 @@ export class ReceptionModel {
 
     const { limit, offset } = getPagination(page, size)
 
-    const files = fs.readdirSync('./src/uploads')
+    const files = fs.readdirSync('./src/uploads/RECEPCIONES')
 
     const like = search ? `AND dnum LIKE '${search}%' OR dreferellos LIKE '${search}%'` : '';
 
