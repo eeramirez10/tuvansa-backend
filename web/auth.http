@@ -8,18 +8,18 @@ Content-Type: application/json
 }
 
 ### register
-POST http://localhost:4000/api/auth/register
+POST https://tuvansacloud.dyndns.org/api/auth/register
 Content-Type: application/json
 
 {
-  "username": "dvalverde",
-  "name": "Diana",
-  "last": "Valverde",
+  "username": "sgarcia",
+  "name": "Susana",
+  "last": "Garcia",
   "branchOffice": "Mexico",
-  "password": "Tuvansa2024",
+  "password": "sga*489*",
   "rol": "user",
   "gender": "female",
-  "pagePermission":["payments"]
+  "pagePermission":["receptions"]
 }
 
 ### renew token 
