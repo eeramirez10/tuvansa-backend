@@ -19,7 +19,7 @@ export class ReceptionModel {
 
     const files = fs.readdirSync('./src/uploads/RECEPCIONES')
 
-    const like = search ? `AND dnum LIKE '%${search}' OR dreferellos LIKE '%${search}'` : '';
+    const like = search ? `AND dnum LIKE '${search}%' OR dreferellos LIKE '${search}%'` : '';
 
     const query = `
     SELECT 
