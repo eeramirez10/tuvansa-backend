@@ -37,7 +37,7 @@ export class SalesModel {
   
         WHERE  
         DFECHA>='${anio}-${mes}-01' AND DFECHA<='${anio}-${mes}-${lastDay}' AND DESFACT=1 AND  DMULTICIA =1 AND DSTATUSCFD = 3  AND ( mid(DNUM,1,2) <> 'AF' AND mid(DNUM,1,2) <> 'AN') AND DFOLIO<>'ANTICIPO'
-        AND AGCIANAME IS NOT NULL
+        AND AGCIANAME IS NOT NULL 
         GROUP BY AGDESCR ORDER BY venta_neta desc
   
       `
