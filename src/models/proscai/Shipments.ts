@@ -85,8 +85,6 @@ export class ShipmentModel {
     `
     ) as Record<any, any> []
 
-    console.log( rutas );
-
 
     return rutas
 
