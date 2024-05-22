@@ -12,14 +12,29 @@ POST https://tuvansacloud.dyndns.org/api/auth/register
 Content-Type: application/json
 
 {
-  "username": "sgarcia",
-  "name": "Susana",
-  "last": "Garcia",
+  "username": "eeramirez",
+  "name": "Erick",
+  "last": "Ramirez",
   "branchOffice": "Mexico",
-  "password": "sga*489*",
+  "password": "912522Pop",
+  "rol": "admin",
+  "gender": "male",
+  "pagePermission":[]
+}
+
+### register
+POST https://tuvansacloud.dyndns.org/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "mavalos",
+  "name": "Marcos",
+  "last": "Avalos",
+  "branchOffice": "Mexico",
+  "password": "mph*772-",
   "rol": "user",
-  "gender": "female",
-  "pagePermission":["receptions"]
+  "gender": "male",
+  "pagePermission":["shipments", "sales"]
 }
 
 ### renew token 

@@ -46,7 +46,7 @@ export class UserController {
 
     const user = await UserModel.findById(id)
 
-    if (user === undefined || user === null ) {
+    if (user === undefined || user === null) {
       return res.status(204).json({
         error: 'User not found'
       })
@@ -54,5 +54,11 @@ export class UserController {
 
     res.json({ user })
 
+  }
+
+  static getList = async (req: Request, res: Response, next: NextFunction) => {
+    const users = await UserModel.getList()
+
+    return res.json({ users })
   }
 }
