@@ -6,15 +6,12 @@ const Supplier = model<SupplierId>('Supplier', supplierSchema)
 
 export class SupplierModel {
   static create = async ({ input }: { input: ISupplier }): Promise<SupplierId> => {
-    const { idProscai, name } = input
-    let supplier = await Supplier.findOne({ idProscai })
-
+    const { uid, name } = input
+    let supplier = await Supplier.findOne({ uid })
     if (supplier === null || supplier === undefined) {
-      let newSupplier = await Supplier.create({ name, idProscai })
+      let newSupplier = await Supplier.create({ name, uid})
       return newSupplier
     }
-    
-
     return supplier
   }
 

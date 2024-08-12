@@ -7,3 +7,5 @@ export const userRouter = Router()
 userRouter.post('/', UserController.create)
 
 userRouter.get('/:id', UserController.getById)
+
+userRouter.get('/', UserController.getList)

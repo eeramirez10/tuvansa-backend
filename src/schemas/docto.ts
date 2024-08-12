@@ -1,18 +1,30 @@
 import { Schema, type ObjectId } from 'mongoose';
-import { type Docto } from "../interfaces/docto.interface";
 import mongooseUniqueValidator from 'mongoose-unique-validator';
+import { type Docto } from "../interfaces/docto.interface";
 
-const { ObjectId, Number, } = Schema.Types;
 
 export const doctoSchema = new Schema<Docto>({
-  name: { type: String, required: true, unique: true },
-  references: {required: true, type: String},
-  dateProscai: {required: true, type: Date},
-  amount: {required: true, type: Number },
-  balance: {required: true, type: Number  },
-  paid: {required: true, type: Number  },
-  file: { type: ObjectId },
-  supplier: {required: true, type: ObjectId },
+  idProscai: { type: Schema.Types.String },
+  factura: { type: Schema.Types.String },
+  ordenCompra: { type: Schema.Types.String },
+  supplierFactura: { type: Schema.Types.String },
+  importePesos: { type: Schema.Types.String },
+  importeFactura: { type: Schema.Types.String },
+  saldo: { type: Schema.Types.String },
+  tipoCambio: { type: Schema.Types.String },
+  fecha: { type: Schema.Types.String },
+  supplier: {
+    uid: { type: Schema.Types.String },
+    name: { type: Schema.Types.String }
+  },
+  branchOffice: {
+    code: { type: Schema.Types.String },
+    name: { type: Schema.Types.String }
+  },
+  coin: {
+    name: { type: Schema.Types.String },
+    code: { type: Schema.Types.String },
+  }
 },{
   timestamps: true
 })

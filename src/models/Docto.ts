@@ -20,4 +20,10 @@ export class DoctoModel {
     return doctoDB
 
   }
+
+  static findOne = async ({ idProscai }) => {
+    const doctoDB = await Docto.findOne({ idProscai })
+  
+    return doctoDB
+  }
 }

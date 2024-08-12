@@ -112,8 +112,6 @@ export class ProscaiInventoryModel {
   
   `) as Array<any>
 
-    console.log({inventarios})
-
     const [[shelter]] = await conexion.query(`
       SELECT  ALMNUM almacen, CAST(FALM.almseq AS CHAR)  almseq,ICOD cod,IEAN ean,I2DESCR description, SUM(ALMCANT) AS quantity FROM FINV
       LEFT JOIN FALM ON FALM.ISEQ=FINV.ISEQ

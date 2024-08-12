@@ -14,6 +14,7 @@ export const countSchema = new Schema<Count>({
     ean: { type: String },
     quantity: { type: Number },
     description: { type: String },
+    costo: { type: Number, },
     user: {
       type: Schema.Types.ObjectId,
       ref: 'User'

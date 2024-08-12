@@ -3,7 +3,7 @@ import mongooseUniqueValidator from 'mongoose-unique-validator'
 import { Supplier } from '../interfaces/payment'
 
 export const supplierSchema = new Schema({
-  idProscai: { type: String, required: true },
+  uid: { type: String, required: true },
   name: { type: String, required: true }
 }, {
   timestamps: true

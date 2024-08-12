@@ -15,13 +15,11 @@ export const multerUpload = multer({
       const fileName = file.originalname.split(fileExtension)[0];
 
       const { paymentId } = req.params
-
-      console.log(fileName)
-
       const newFile: IFile = {
         name: fileName,
         ext: fileExtension,
-        payment: paymentId
+        // payment: paymentId
+        originalName:''
 
       }
 

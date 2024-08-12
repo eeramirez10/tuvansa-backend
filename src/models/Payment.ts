@@ -1,6 +1,6 @@
 import { ObjectId, model } from 'mongoose'
 import { paymentSchema } from '../schemas/payment'
-import { File, IPayment, PaymentId } from '../interfaces/payment';
+import { IPayment, PaymentId } from '../interfaces/payment';
 
 
 const Payment = model<IPayment>('Payment', paymentSchema)
@@ -8,36 +8,60 @@ const Payment = model<IPayment>('Payment', paymentSchema)
 export class PaymentModel {
   static create = async ({ input }: { input: IPayment }) => {
 
-    console.log(input)
-
     const payment = await Payment.create(input)
     return payment
   }
 
+  static getAll = async () => {
 
-  static getAlL = async () => {
-    const payments = Payment.find({})
-      .populate('files', {
-        payment: 0
-      })
-      .populate('supplier')
-      .populate('user')
+    try {
+      const payments = Payment.find({})
+        .populate('supplier')
+        .populate('creditor')
+        .populate('proscai')
+        .populate('files')
+        .populate('category', { subcategories: 0 })
+        .populate('subcategory')
 
-    return payments
+      return payments
+
+    } catch (error) {
+      console.log(error)
+    }
+
   }
 
   static getById = async ({ id }: { id: string }) => {
 
-    console.log(id)
-    const payment = await Payment.findById(id)
-      .populate('files', { payment: 0 })
-      .populate('supplier')
+    try {
+
+      return await Payment.findById(id)
+        .populate('files', { payment: 0 })
+        .populate('supplier')
+        .populate('creditor')
+        .populate('proscai')
+        .populate('files')
+        .populate('category', { subcategories: 0 })
+        .populate('subcategory', { category: 0 })
+
+
+
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
+
+  static findOne = async ({ input }: { input: string }) => {
+
+    const payment = await Payment.findOne({ idProscai: input })
 
     return payment
   }
 
   static update = async ({ input, id }: { input: IPayment, id: string }) => {
     const payment = await Payment.findByIdAndUpdate(id, input)
+
 
     return payment
   }
