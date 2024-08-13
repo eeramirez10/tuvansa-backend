@@ -7,6 +7,7 @@ export interface IUser {
   rol?: string
   gender?: string
   pagePermission: string[]
+  documentsAuthorization: string[]
 }
 
 export interface UserId extends IUser {

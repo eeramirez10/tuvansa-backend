@@ -28,7 +28,8 @@ export class UserController {
         passwordHash,
         branchOffice,
         rol,
-        pagePermission: []
+        pagePermission: [],
+        documentsAuthorization:[]
       }
 
       const user = await UserModel.create({ input: newUser })
