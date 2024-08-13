@@ -29,8 +29,8 @@ export class PurchaseModel {
       .populate({ path: 'authorizedBy' })
   }
 
-  static getOneOrder = async (value: string) => {
-    return await PurchaseOrder.findOne({ value })
+  static getOneOrder = async (value: object) => {
+    return await PurchaseOrder.findOne(value)
   }
 
   static updateOrder = async (id: string, object: PurchaseOrder) => {

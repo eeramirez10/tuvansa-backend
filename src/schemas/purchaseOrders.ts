@@ -5,7 +5,8 @@ export const purchaseOrderSchema = new Schema<PurchaseOrder>({
 
   proscai:{
     type: String,
-    required: [true, 'proscai is required']
+    required: [true, 'proscai is required'],
+    unique: true
   },
   provider:{
     type: String,
@@ -13,11 +14,11 @@ export const purchaseOrderSchema = new Schema<PurchaseOrder>({
   },
   purchaseOrder:{
     type: String,
-    required: [true, 'purchaseOrder is required']
+    required: [true, 'purchaseOrder is required'],
+    unique: true
   },
   pedPrv:{
     type: String,
-    required: [true, 'pedPrv is required']
   },
   from:{
     type: Date,

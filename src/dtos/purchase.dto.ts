@@ -70,7 +70,6 @@ export class PurchaseDto {
     if (!proscai) return ['proscai is required']
     if (!provider) return ['provider is required']
     if (!purchaseOrder) return ['purchaseOrder is required']
-    if (!pedPrv) return ['pedPrv is required']
     if (!from) return ['from is required']
     if (!due) return ['due is required']
     if (!warehouse) return ['warehouse is required']
@@ -96,11 +95,9 @@ export class PurchaseDto {
       currency,
       exchangeRate,
       comment: comment ?? '',
-      authorized: authorized ?? false,
+      authorized: false,
       user
     })
-
-    console.log(purchaseDto)
 
     return [undefined, purchaseDto]
 

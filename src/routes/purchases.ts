@@ -33,6 +33,10 @@ purchasesRouter.post('/orders', validateJWT, async (req: ReqExt, res, next) => {
 
   const user = req.userId as ObjectId
 
+  const existOrder = await PurchaseModel.getOneOrder({ purchaseOrder: body.purchaseOrder })
+
+  if (existOrder) return res.status(400).json({ error: 'order exist' })
+
   const [error, orderDto] = PurchaseDto.createOrder({ ...body, user })
 
   if (error) {
@@ -55,7 +59,6 @@ purchasesRouter.put('/orders/:id', validateJWT, async (req: ReqExt, res, next) =
 
   let body = req.body
   const id = req.params.id as string
-
   const user = req.userId as ObjectId
 
   try {
@@ -64,7 +67,8 @@ purchasesRouter.put('/orders/:id', validateJWT, async (req: ReqExt, res, next) =
 
     if (!isRemission) return res.status(400).json({ msg: 'Order not exist' })
 
-    if (body.authorized) {
+
+    if (body.authorized === true) {
 
       body = {
         ...body,
