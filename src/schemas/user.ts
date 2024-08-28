@@ -35,7 +35,7 @@ export const userSchema = new Schema<IUser>({
     default: 'other'
   },
   pagePermission: [{ type: String }],
-  documentsAuthorization:[{ type: String, enum:['purchaseOrder']}]
+  documentsAuthorization:[{ type: String, enum:['purchaseOrder'], default:[]}, ]
 
 }, {
   timestamps: true,
