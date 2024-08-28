@@ -4,6 +4,8 @@ uploads
 src/uploads
 src/.well-known/
 
+dist/
+
 .idea
 
 web/

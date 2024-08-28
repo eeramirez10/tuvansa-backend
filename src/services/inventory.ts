@@ -30,7 +30,7 @@ export const createInventory = async ({ count, iseq, userId }: { count: number, 
 
   inventoryDB.counts = inventoryDB.counts.concat(countDB.id)
 
-  countDB.inventory = inventoryDB.toJSON()
+  // countDB.inventory = inventoryDB.toJSON()
   countDB.user = userId
 
   inventoryDB.user = userId

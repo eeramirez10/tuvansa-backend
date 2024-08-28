@@ -4,9 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=production  ts-node src/server.ts",
+    "clean": "find ./src -name '*.js' -type f -delete",
+    "build": "tsc",
+    "start": "NODE_ENV=production node dist/server.js",
     "dev": "NODE_ENV=development nodemon src/server.ts",
-    "test:unit": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules npx jest "
+    "test:unit": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules npx jest",
+    "heroku-postbuild": "npm run build"
   },
   "keywords": [],
   "author": "",

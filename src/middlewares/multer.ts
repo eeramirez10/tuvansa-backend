@@ -19,8 +19,8 @@ export const multerUpload = multer({
         name: fileName,
         ext: fileExtension,
         // payment: paymentId
-        originalName:''
-
+        originalName: '',
+        docModel: ''
       }
 
       const fileDB = await FileModel.upload(newFile)
