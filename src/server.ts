@@ -47,10 +47,10 @@ function createHttpsServer(options: Options): Boolean {
 
   const existPathCert = fs.existsSync(path)
 
+  console.log(existPathCert)
   
   if (!existPathCert) return false
   
-  console.log(path)
 
 
   let privateKey = fs.readFileSync(`${path}/${privkey}`, 'utf8')
