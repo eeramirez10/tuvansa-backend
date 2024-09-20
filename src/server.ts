@@ -22,6 +22,8 @@ interface Options {
     chain: envs.CHAIN
   })
 
+ 
+
   if (!httpServer) return app.listen(envs.PORT, () => {
     console.log(`Server listen in port ${envs.PORT}`)
   })
@@ -43,7 +45,11 @@ function createHttpsServer(options: Options): Boolean {
 
   const existPathCert = fs.existsSync(path)
 
+  console.log(path)
+
   if (!existPathCert) return false
+
+
 
   let privateKey = fs.readFileSync(`${path}/${privkey}`, 'utf8')
   let certificate = fs.readFileSync(`${path}/${cert}`, 'utf8');
