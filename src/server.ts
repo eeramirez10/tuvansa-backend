@@ -15,8 +15,6 @@ interface Options {
 
 (() => {
 
-  console.log(envs.PATH_CERT)
-
   const httpServer = createHttpsServer({
     path: envs.PATH_CERT,
     privkey: envs.PRIVKEY,
@@ -47,7 +45,6 @@ function createHttpsServer(options: Options): Boolean {
 
   const existPathCert = fs.existsSync(path)
 
-  console.log(existPathCert)
   
   if (!existPathCert) return false
   
@@ -69,7 +66,6 @@ function createHttpsServer(options: Options): Boolean {
     ca
   }
 
-  console.log({credentials})
 
   const httpServer = http.createServer(app)
   const httpsServer = https.createServer(credentials, app)
