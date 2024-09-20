@@ -54,11 +54,6 @@ function createHttpsServer(options: Options): Boolean {
   let certificate = fs.readFileSync(`${path}/${cert}`, 'utf8');
   let ca = chain ? fs.readFileSync(`${path}/${chain}`, 'utf8') : '';
 
-  console.log({
-    privateKey,
-    certificate,
-    ca
-  })
 
   const credentials = {
     key: privateKey,
