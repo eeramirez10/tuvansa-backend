@@ -2,6 +2,7 @@ import { ObjectId } from "mongoose";
 import { Inventory, InventoryBody, InventoryId } from "../interfaces/inventory.interface";
 import { CountModel } from "../models/Count";
 import { InventoryModel } from "../models/Inventory";
+import { ProscaiInventoryModel } from "../models/proscai/Inventory";
 
 
 interface ReturnProps {
@@ -10,21 +11,26 @@ interface ReturnProps {
 }
 
 
-export const createInventory = async ({ input, userId }: { input: InventoryBody, userId: ObjectId }):Promise<ReturnProps>  => {
+export const createInventory = async ({ count, iseq, userId }: { count: number, iseq: string, userId: ObjectId }): Promise<ReturnProps> => {
 
-  const { count } = input
 
-  const inventoryDB = await InventoryModel.create({ inventory:input })
+  const isPaused = await getIsInventoryPaused({ iseq })
 
-  if (inventoryDB.paused) {
+  if (isPaused) {
     return { error: 'Inventory is paused' }
   }
+
+  const inventoryProscai = await ProscaiInventoryModel.getByIseq({ iseq })
+
+  const inventoryDB = await InventoryModel.create({ inventory: inventoryProscai })
+
+
 
   const countDB = await CountModel.create({ input: { count } })
 
   inventoryDB.counts = inventoryDB.counts.concat(countDB.id)
 
-  countDB.inventory = input
+  countDB.inventory = inventoryDB.toJSON()
   countDB.user = userId
 
   inventoryDB.user = userId
@@ -36,7 +42,16 @@ export const createInventory = async ({ input, userId }: { input: InventoryBody,
 
   const inventory = await InventoryModel.getById({ id: inventoryDB.id }) as InventoryId
 
-  return {inventory}
+  return { inventory }
 
+
+}
+
+
+export const getIsInventoryPaused = async ({ iseq }: { iseq: string }): Promise<boolean> => {
+
+  const inventoryDB = await InventoryModel.getByIseq({ iseq })
+
+  return inventoryDB === null ? false : inventoryDB.paused
 
 }

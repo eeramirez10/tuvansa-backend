@@ -11,6 +11,8 @@ inventoriesRouter.post('/', InventoryController.create)
 
 inventoriesRouter.patch('/:id', InventoryController.update)
 
+inventoriesRouter.put('/releaseall', InventoryController.releaseAll)
+
 inventoriesRouter.get('/:id', InventoryController.getById)
 
 inventoriesRouter.get('/iseq/:iseq', InventoryController.getByIseq)

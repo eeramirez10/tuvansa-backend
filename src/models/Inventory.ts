@@ -8,7 +8,8 @@ const Inventory = model<IInventory>('Inventory', inventorySchema)
 
 export class InventoryModel {
   static create = async ({ inventory }: { inventory: InventoryBody }) => {
-    let inventoryDB = await Inventory.findOne({ iseq: inventory.iseq })
+    let inventoryDB = await Inventory.findOneAndUpdate({ iseq: inventory.iseq, }, inventory, { new: true })
+
     if (!inventoryDB) {
       inventoryDB = await Inventory.create(inventory)
     }
@@ -38,6 +39,22 @@ export class InventoryModel {
   }
 
   static getByIseq = async ({ iseq }: { iseq: string }) => {
+
+    let inventoryDB = await Inventory.findOne({ iseq })
+      .populate('user', ['username', 'name'])
+      .populate({
+        path: 'counts',
+        populate: { path: 'user', select: ['username', 'name'] }
+      })
+
+
+    return inventoryDB
+  }
+
+  static getByIse = async ({ iseq }: { iseq: string }) => {
+
+
+
     let inventoryDB = await Inventory.findOne({ iseq })
       .populate('user', ['username', 'name'])
       .populate({
@@ -56,7 +73,10 @@ export class InventoryModel {
   }
 
   static getAll = async () => {
-    let inventoryDB = await Inventory.find({'counts.0': {$exists: true}})
+
+
+
+    let inventoryDB = await Inventory.find({ 'counts.0': { $exists: true } })
       .populate({ path: 'counts', populate: { path: 'user', select: ['username', 'name'] } })
       .populate({ path: 'user', select: ['username', 'name'] })
     return inventoryDB
@@ -67,9 +87,19 @@ export class InventoryModel {
       $pull: {
         counts: countId
       }
-      
-    }, {new: true})
+
+    }, { new: true })
 
     return inventoryDB
+  }
+
+  static release = async ({ paused }: { paused: boolean }) => {
+
+    console.log(paused)
+
+    const inventoryDB = await Inventory.updateMany({ paused: !paused }, { paused })
+
+    return inventoryDB
+
   }
 }
