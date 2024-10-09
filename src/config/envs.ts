@@ -4,7 +4,7 @@ import { get } from 'env-var'
 export const envs = {
   PORT: get('PORT').required().asPortNumber(),
   NODE_ENV: get('NODE_ENV').asString(),
-  MONGO_DB_URI: get('MONGO_DB_URI').required().asString(),
+  MONGO_DB_URI: get('MONGO_DB_URI').asString(),
   MONGO_DB_URI_TEST: get('MONGO_DB_URI_TEST').required().asString(),
   MONGO_DB_URI_DEV: get('MONGO_DB_URI_DEV').required().asString(),
   SEED: get('SEED').required().asString(),
