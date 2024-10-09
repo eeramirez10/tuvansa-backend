@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "pm2": "NODE_ENV=production pm2 start dist/server.js ",
     "clean": "find ./src -name '*.js' -type f -delete",
     "build": "tsc",
     "start": "NODE_ENV=production node dist/server.js",
