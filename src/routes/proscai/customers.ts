@@ -27,11 +27,6 @@ proscaiRouter.get( '/inventories/:iseq', ProscaiInventoryController.getByIseq );
 
 proscaiRouter.get( '/inventories/shelter/:almseq', ProscaiInventoryController.getShelter );
 
-proscaiRouter.get( '/sales', SalesController.getSales );
-proscaiRouter.get( '/sales/remissions', SalesController.getRemissions );
-
-proscaiRouter.get( '/sales/remissions/:id', SalesController.getRemission );
-
 proscaiRouter.get( '/receptions', ReceptionController.getList );
 
 proscaiRouter.get( '/shipments', ShipmentController.getAll )

@@ -19,6 +19,26 @@ export class SalesController {
     }
   }
 
+  static getSalesByPostalCode = async (req: Request, res: Response, next: NextFunction) => {
+
+    const year = req.query?.year as string
+    const customerId = req.query?.customerId as string
+
+
+
+
+    try {
+
+      const sales = await SalesProscaiModel.getSalesByPostalCode({ year, customerId })
+
+      res.json({ results: sales })
+
+    } catch (error) {
+      next(error)
+    }
+
+  }
+
   static getRemissions = async (req: Request, res: Response, next: NextFunction) => {
     try {
 

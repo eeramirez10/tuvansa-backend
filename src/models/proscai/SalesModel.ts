@@ -2,6 +2,8 @@ import { RowDataPacket } from "mysql2";
 import { connection } from "../../config/mysql"
 import { getCurrentDay, getCurrentMonth, getCurrentYear, getLastDayOfMonth } from "../../helpers/date";
 
+import indexByCp from '../../data/indexed-cp-mex.json'
+
 interface RemissionProscai extends RowDataPacket {
 
   DSEQ: number
@@ -13,6 +15,32 @@ interface RemissionProscai extends RowDataPacket {
   IMPORTE: string
   AGDESCR: string
 
+}
+
+interface SalesByState extends RowDataPacket {
+  SUCURSAL: string
+  YEAR: string
+  MES: string
+  FAMILIA: string
+  CLAVE: string
+  DESCRIPCION: string
+  ID_CLIENTE: string
+  CLIENTE: string
+  CP: string
+  VENTA: string
+  COSTO: string
+
+}
+
+interface StatesPostalCodes {
+  postalCode: string
+  countryCode: string
+  name: string
+}
+
+interface SalesByPostalCodeOptions {
+  year?: string
+  customerId?: string
 }
 
 export class SalesProscaiModel {
@@ -80,6 +108,103 @@ export class SalesProscaiModel {
 
   }
 
+  static getSalesByPostalCode = async (options: SalesByPostalCodeOptions) => {
+    const con = await connection()
+
+    const year = options.year ?? getCurrentYear()
+
+    const customerId = options.customerId
+
+
+    const searchByCustomerId = customerId === null || customerId === undefined  || customerId === 'undefined' ? '' : `AND CLICOD = '${customerId}'`
+    const groupByClicod = customerId === null || customerId === undefined || customerId === 'undefined' ? 'GROUP BY CLICP' : 'GROUP BY CLICOD, FAMB.FAMDESCR'
+
+    // console.log({ searchByCustomerId, groupByClicod })
+
+
+    const consulta = `
+      SELECT 
+      CASE DMULTICIA
+              WHEN 1 THEN '01 MEXICO'
+      END AS SUCURSAL,
+      DATE_FORMAT(DFECHA,'%Y') AS YEAR,
+      CASE DATE_FORMAT(DFECHA,'%m')
+              WHEN '01' THEN '01 ENE'
+              WHEN '02' THEN '02 FEB'
+              WHEN '03' THEN '03 MAR'
+              WHEN '04' THEN '04 ABR'
+              WHEN '05' THEN '05 MAY'
+              WHEN '06' THEN '06 JUN'
+              WHEN '07' THEN '07 JUL'
+              WHEN '08' THEN '08 AGO'
+              WHEN '09' THEN '09 SEP'
+              WHEN '10' THEN '10 OCT'
+              WHEN '11' THEN '11 NOV'
+              WHEN '12' THEN '12 DIC'
+      END AS MES,
+      FAMB.FAMDESCR AS FAMILIA,IEAN AS CLAVE,IDESCR AS DESCRIPCION,CLICOD AS ID_CLIENTE, CLINOM AS CLIENTE,CLICP AS CP,SUM(AICANTF*AIPRECIO) AS VENTA,SUM(AICANTF*AICOSTO) AS COSTO
+      FROM FAXINV
+      LEFT JOIN FDOC ON FDOC.DSEQ=FAXINV.DSEQ
+      LEFT JOIN FINV ON FINV.ISEQ=FAXINV.ISEQ
+      LEFT JOIN FCLI ON FCLI.CLISEQ=FDOC.CLISEQ
+      LEFT JOIN FFAM AS FAMB ON FAMB.FAMTNUM=FINV.IFAMB
+      WHERE (mid(DNUM,1,1)='F' OR mid(DNUM,1,1)='D') ${searchByCustomerId} AND ITIPO<>4 AND DCANCELADA = 0 AND (DFECHA>='2020-01-01' AND DFECHA<='2024-12-31') AND DSTATUSCFD=3 AND DMULTICIA=1 AND DATE_FORMAT(DFECHA,'%Y') = ?
+      ${groupByClicod}
+      ORDER BY DATE_FORMAT(DFECHA,'%Y'),DATE_FORMAT(DFECHA,'%m'),SUCURSAL,CLICOD,IFAMB,ICOD
+
+    `
+
+
+    try {
+
+      const [sales] = await con.query<SalesByState[]>(consulta, [year])
+
+      // const indexByCp = statesPostalCodes.reduce((acc, current) => {
+      //   acc[current.postalCode] = current
+      //   return acc
+      // }, {} as Record<number, typeof sales[0]>)
+
+      const mapSales = sales.map(sale => ({
+        ...sale,
+        ESTADO: indexByCp[sale.CP]?.name ?? null
+      }))
+
+      // const groupByState = Object.values(
+      //   mapSales.reduce((acc, current) => {
+      //     const estado = current.ESTADO
+
+      //     if (!acc[estado]) {
+      //       acc[estado] = {
+      //         estado,
+      //         venta: 0,
+      //         costo: 0,
+      //       }
+      //     }
+
+      //     // acc[estado].push(current)
+
+      //     acc[estado].venta += parseFloat(current.VENTA)
+      //     acc[estado].costo += parseFloat(current.COSTO)
+
+      //     return acc
+      //   }, {})
+      // )
+
+
+
+
+
+
+      return mapSales
+
+    } catch (error) {
+      console.log(error)
+    } finally {
+      con.destroy()
+    }
+
+  }
+
   static getRemissions = async () => {
     const con = await connection()
 
@@ -126,7 +251,7 @@ export class SalesProscaiModel {
 
     try {
 
-      const [remission] = await con.query<RemissionProscai[]>(consulta) 
+      const [remission] = await con.query<RemissionProscai[]>(consulta)
 
 
       return remission[0]
