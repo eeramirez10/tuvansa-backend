@@ -1,16 +1,11 @@
 import express, { json } from 'express'
 import cors from 'cors'
-import 'dotenv/config'
-import { userRouter } from './routes/user'
 import { conectDB } from './config/mongo'
 import { handleErrors } from './middlewares/handleErrors'
-import { paymentsRouter } from './routes/payments'
-import { authRouter } from './routes/auth'
-import { FileRouter } from './routes/file'
 import { join } from 'path';
-import { proscaiRouter } from './routes/proscai/customers'
-import { inventoriesRouter } from './routes/inventory'
-import { countsRouter } from './routes/count'
+import { appRoutes } from './routes/app.routes'
+import { proscaiAppRouter } from './routes/proscai/proscaiApp.routes'
+
 const app = express()
 
 conectDB()
@@ -24,13 +19,12 @@ app.use('/public', express.static(join(__dirname, '../uploads')))
 
 app.use('/public', express.static(join(__dirname, './uploads')))
 
-app.use('/api/users', userRouter)
-app.use('/api/payments', paymentsRouter)
-app.use('/api/auth', authRouter)
-app.use('/api/files', FileRouter)
-app.use('/api/inventories', inventoriesRouter)
-app.use('/api/counts', countsRouter)
-app.use('/api/proscai', proscaiRouter)
+//Routes
+app.use(appRoutes)
+app.use(proscaiAppRouter)
+
+
+
 app.use(handleErrors)
 
 export default app;

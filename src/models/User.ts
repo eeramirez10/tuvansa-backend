@@ -17,9 +17,13 @@ export class UserModel {
     return user
   }
 
-  static findOne = async ({input}: { input: object}) => {
+  static findOne = async ({ input }: { input: object }) => {
 
     const user = await User.findOne({ ...input })
     return user
+  }
+
+  static getList = async () => {
+    return await User.find({})
   }
 }

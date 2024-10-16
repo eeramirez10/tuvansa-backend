@@ -5,6 +5,9 @@ export interface IUser {
   last: string
   branchOffice?: string
   rol?: string
+  gender?: string
+  pagePermission: string[]
+  documentsAuthorization: string[]
 }
 
 export interface UserId extends IUser {

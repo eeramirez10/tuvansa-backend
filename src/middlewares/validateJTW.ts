@@ -1,10 +1,11 @@
-import { NextFunction , Response } from "express";
+import { NextFunction, Response } from "express";
 import jwt from 'jsonwebtoken';
 import { RequestExt } from "../interfaces/request.interface";
 import { ObjectId } from "mongoose";
 
 
-export const validateJWT = (req:any, res: Response, next: NextFunction) => {
+export const validateJWT = (req: any, res: Response, next: NextFunction) => {
+
   const authorization = req.get('authorization')
 
   if (!authorization && !authorization?.toLowerCase().startsWith('bearer')) {
@@ -19,7 +20,7 @@ export const validateJWT = (req:any, res: Response, next: NextFunction) => {
     return res.status(401).json({ error: 'token missing or invalid' })
   }
 
-  const { id, username }= decodeToken
+  const { id, username } = decodeToken
 
   req.userId = id
   req.username = username
