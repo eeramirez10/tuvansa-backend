@@ -1,6 +1,7 @@
 import { Schema, } from 'mongoose';
 import mongooseUniqueValidator from 'mongoose-unique-validator'
 import { File } from '../interfaces/payment'
+import { DOC_MODELS } from '../dtos/file.dto';
 
 
 export const fileSchema = new Schema<File>({
@@ -11,7 +12,7 @@ export const fileSchema = new Schema<File>({
     type: Schema.Types.ObjectId,
     refPath: 'docModel',
   },
-  docModel: { type: String, enum: ["Payment", "Remission", "PurchaseOrders"] }
+  docModel: { type: String, enum: DOC_MODELS }
 },
   {
     timestamps: true

@@ -18,6 +18,7 @@ export const FileRouter = Router()
 
 FileRouter.post('/', [upload.single('file')], FileController.upload)
 
+
 FileRouter.put('/:id', validateJWT, FileController.update)
 
 FileRouter.get('/', validateJWT, FileController.getALl)

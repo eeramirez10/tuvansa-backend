@@ -7,7 +7,6 @@ import { FileRouter } from './file';
 import { inventoriesRouter } from './inventory';
 import { countsRouter } from './count';
 import { categoryRouter } from './category.controller';
-import { proscaiRouter } from './proscai/customers';
 import { competitionRouter } from './competition';
 import { salesRouter } from './sales';
 import { purchasesRouter } from './purchases';

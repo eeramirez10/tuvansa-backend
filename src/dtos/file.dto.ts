@@ -1,6 +1,6 @@
 
 
-const DOC_MODELS = ["Payment", "Remission", "PurchaseOrders",]
+export const DOC_MODELS = ["Payment", "Remission", "PurchaseOrders","Signature"]
 
 export class FileDto {
 

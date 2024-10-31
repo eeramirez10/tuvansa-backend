@@ -1,13 +1,14 @@
 import { Schema } from 'mongoose'
 import mongooseUniqueValidator from 'mongoose-unique-validator'
 import { IUser } from '../interfaces/user.types'
+import { Types } from 'mysql2'
 
 export const userSchema = new Schema<IUser>({
   username: {
     type: String,
     required: true,
     unique: true,
-    
+
   },
   name: {
     type: String,
@@ -35,7 +36,9 @@ export const userSchema = new Schema<IUser>({
     default: 'other'
   },
   pagePermission: [{ type: String }],
-  documentsAuthorization:[{ type: String, enum:['purchaseOrder'], default:[]}, ]
+  documentsAuthorization: [{ type: String, enum: ['purchaseOrder'], default: [] },],
+  signature: { type: String, default: null },
+  signatureFile: { type: Schema.Types.ObjectId, ref:'File' }
 
 }, {
   timestamps: true,

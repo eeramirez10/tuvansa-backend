@@ -67,6 +67,7 @@ export interface SupplierId extends Supplier {
   id: ObjectId
 }
 
+
 export interface File {
   id?: string,
   name: string

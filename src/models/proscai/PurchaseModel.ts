@@ -27,6 +27,9 @@ export interface PurchaseOrder extends RowDataPacket {
 interface Options {
   from?: string
   to?: string
+  search?: string
+  limit?: number
+  page?: number
 }
 
 
@@ -35,16 +38,21 @@ export class PurchaseModel {
 
   static getPurchaseOrders = async (options: Options): Promise<PurchaseOrder[]> => {
 
-    const lastMonth = parseInt(getCurrentMonth() ) - 1
+    const lastMonth = parseInt(getCurrentMonth()) - 1
 
     const from = options.from ?? `${getCurrentYear()}-${lastMonth}-01`
     const to = options.to ?? `${getCurrentYear()}-${getCurrentMonth()}-${getLastDayOfMonth(getCurrentYear(), getCurrentMonth())}`
+    const search = options.search ? `%${options.search}%` : '%'
+    const limit = options.limit ?? 10
+    const offset = ((options.page ?? 1) - 1) * limit
+
+
 
     const con = await connection()
 
     const query = `
-      SELECT CASE PEMULTICIA
-		WHEN 1 THEN '01 MEXICO'
+    SELECT CASE PEMULTICIA
+        WHEN 1 THEN '01 MEXICO'
         WHEN 2 THEN '02 MONTERREY'
         WHEN 3 THEN '03 VERACRUZ'
         WHEN 4 THEN '04 MEXICALI'
@@ -70,13 +78,16 @@ export class PurchaseModel {
     LEFT JOIN FPRV ON FPRV.PRVSEQ=FPENC.PRVSEQ
     LEFT JOIN FUSERS ON FUSERS.USRSEQ=FPENC.PEUSRALTA
     LEFT JOIN FCOMENT ON FCOMENT.COMSEQFACT=1000000000+FPENC.PESEQ
-    WHERE  PEFECHA>=? AND PEFECHA<=?
-    AND PESPEDIDO=2 AND PEMULTICIA=1 
+    WHERE PEFECHA >= ? AND PEFECHA <= ?
+    AND PESPEDIDO = 2 AND PEMULTICIA = 1
+    AND PENUM LIKE ?
     GROUP BY PENUM
     ORDER BY PEDATE2 DESC
-    `
+    LIMIT ? OFFSET ?`;
 
-    const [orders] = await con.query<PurchaseOrder[]>(query, [from, to])
+
+
+    const [orders] = await con.query<PurchaseOrder[]>(query, [from, to, search, limit, offset])
 
     return orders
 

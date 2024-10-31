@@ -1,6 +1,6 @@
-import { ObjectId, model } from 'mongoose'
+import { model } from 'mongoose'
 import { userSchema } from '../schemas/user'
-import { type IUser } from '../interfaces/user.types'
+import { UpdateUser, type IUser } from '../interfaces/user.types';
 
 const User = model<IUser>('User', userSchema)
 
@@ -10,6 +10,13 @@ export class UserModel {
   static create = async ({ input }: { input: IUser }) => {
     const user = await User.create(input)
     return user
+  }
+
+  static update = async ({ id, input }: { id: string, input: UpdateUser }) => {
+    console.log(input.name)
+    console.log(id)
+    const updatedUser = await User.findByIdAndUpdate(id, { ...input })
+    return updatedUser
   }
 
   static findById = async (id: String) => {
