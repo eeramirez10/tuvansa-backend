@@ -111,6 +111,15 @@ export class UserController {
       return res.status(400).send('No se encontró el archivo SVG en la solicitud');
     }
 
+    const signaturesDir = path.join(__dirname, '../uploads/signatures');
+
+    // Crea la carpeta si no existe
+    if (!fs.existsSync(signaturesDir)) {
+      fs.mkdirSync(signaturesDir, { recursive: true });
+    }
+
+
+
     const outputFilePath = path.join(__dirname, '../uploads/signatures', `${idString}.png`);
 
     const lastOutputFilePath = path.join(__dirname, '../uploads/signatures', `${user.signature}`);
