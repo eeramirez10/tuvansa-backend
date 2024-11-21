@@ -150,6 +150,7 @@ export class InventoryController {
 
     try {
       const inventories = await InventoryModel.getAll()
+      console.log(inventories)
 
       res.json({ inventories: { items: inventories } })
 
