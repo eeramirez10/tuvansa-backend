@@ -33,7 +33,7 @@ export const loginUser = async (authUser: Auth): Promise<TokenResponse> => {
     username: user.username
   }
 
-  const token = jwt.sign(userForToken, process.env.SEED!, { expiresIn: '2h' })
+  const token = jwt.sign(userForToken, process.env.SEED!, { expiresIn: '7d' })
 
   return {
     user,
