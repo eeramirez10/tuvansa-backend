@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import { ProscaiInventoryModel } from "../../models/proscai/Inventory";
+import { stringToBoolean } from "../../helpers/stringToBoolean";
 
 
 interface RequestExt extends Request {
-  query: { page: string, size: string, search: string, almacen: string }
+  query: { page: string, size: string, search: string, almacen: string, withStock: string, family: string }
   params: { iseq: string, cod: string, almacen: string, almseq: string }
 }
 
@@ -11,10 +12,12 @@ export class ProscaiInventoryController {
 
   static getList = async (req: RequestExt, res: Response, next: NextFunction) => {
 
-    const { page, size, search, almacen } = req.query;
+    const { page, size, search, almacen, withStock: stock ,family } = req.query;
+
+    const withStock = stock ? stringToBoolean(stock) : false;
 
     try {
-      const inventories = await ProscaiInventoryModel.getList({ page, size, search, almacen })
+      const inventories = await ProscaiInventoryModel.getList({ page, size, search, almacen, withStock, family })
 
       res.json({ inventories })
 

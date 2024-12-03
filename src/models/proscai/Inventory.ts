@@ -7,30 +7,52 @@ interface GetListProps {
   size?: string
   search?: string
   almacen?: string
+  family?: string
+  withStock?: boolean
 }
 
 export class ProscaiInventoryModel {
 
   static getList = async (props: GetListProps) => {
 
-    const { page = '1', size = '10', search = '', almacen = '01' } = props
+    const { page = '1', size = '50', search = '', almacen = '01', withStock = false, family = '' } = props
 
     const conexion = await connection()
 
     const { limit, offset } = getPagination(page, size)
 
     const like = search ? `AND IEAN LIKE '${search}%' OR ICOD LIKE '${search}%'` : '';
+    const isStock = withStock ? 'AND ALMCANT <> 0' : ''
+    const searchFamily = family ? `AND FAMB.FAMDESCR = '${family.toUpperCase()}'` : ''
 
     const [inventarios] = await conexion.query(`
-      SELECT  ALMNUM branchOffice, CAST(FINV.ISEQ AS CHAR) iseq,ICOD cod,IEAN ean,I2DESCR description, ALMCANT quantity, ILISTA4 costo FROM FINV
-      LEFT JOIN FALM ON FALM.ISEQ=FINV.ISEQ
-      LEFT JOIN FINV2 ON FINV2.I2KEY=FINV.ISEQ
-      WHERE ALMNUM = ${almacen} and ITIPO=1 
+      SELECT  
+	      ALMNUM branchOffice,
+	      CAST(FINV.ISEQ AS CHAR) iseq,
+	      FAMB.FAMDESCR as familyDescription,
+	      ICOD as cod,
+	      IEAN as ean,
+	      I2DESCR as description,
+	      ALMCANT as quantity,
+	      ILISTA4 costo 
+      FROM
+      	FALM
+      	LEFT JOIN FINV ON FINV.ISEQ = FALM.ISEQ
+      	LEFT JOIN FINV2 ON FINV2.I2KEY = FALM.ISEQ
+      	LEFT JOIN FFAM AS FAMB ON FAMB.FAMTNUM = FINV.IFAMB
+
+      WHERE ALMNUM = ${almacen} 
+      and ITIPO=1 
+      ${isStock}
+	    AND mid(ICOD, 1, 2) = ${almacen} 
+      ${searchFamily}
       ${like}
-      GROUP BY IEAN
-      ORDER BY ICOD
+      ORDER BY
+        ALMCANT,
+	      IFAMB,
+	      IUPC
       
-      limit  ${offset}
+
     
     `) as Array<any>
 
@@ -81,9 +103,9 @@ export class ProscaiInventoryModel {
       SELECT  ALMNUM branchOffice, CAST(FINV.ISEQ AS CHAR) iseq,ICOD cod,IEAN ean,I2DESCR description, ALMCANT AS quantity, ILISTA4 costo FROM FINV
       LEFT JOIN FALM ON FALM.ISEQ=FINV.ISEQ
       LEFT JOIN FINV2 ON FINV2.I2KEY=FINV.ISEQ
-      WHERE ITIPO=1  and IEAN <> '' AND FINV.ISEQ = ${iseq}
-      GROUP BY IEAN
-      ORDER BY IEAN
+      WHERE ITIPO=1  and IEAN <> '' AND FINV.ISEQ = ${iseq} AND ALMNUM = '01'
+      GROUP BY ALMNUM,IEAN
+      ORDER BY ALMNUM,IEAN
     `)
 
     return {
@@ -133,3 +155,5 @@ export class ProscaiInventoryModel {
   }
 
 }
+
+
