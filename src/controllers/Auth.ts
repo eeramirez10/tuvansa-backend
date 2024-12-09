@@ -70,7 +70,7 @@ export class AuthController {
     const { userId, username } = req
 
 
-    const token = jwt.sign({ id: userId, username }, process.env.SEED!, { expiresIn: 60 * 60 })
+    const token = jwt.sign({ id: userId, username }, process.env.SEED!, { expiresIn: '2h' })
 
     const user = await UserModel.findById(userId)
 

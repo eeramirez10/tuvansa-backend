@@ -41,10 +41,10 @@ export class InventoryModel {
   static getByIseq = async ({ iseq }: { iseq: string }) => {
 
     let inventoryDB = await Inventory.findOne({ iseq })
-      .populate('user', ['username', 'name'])
+      .populate('user')
       .populate({
         path: 'counts',
-        populate: { path: 'user', select: ['username', 'name'] }
+        populate: { path: 'user' }
       })
 
 

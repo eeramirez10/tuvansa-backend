@@ -21,7 +21,7 @@ export class ProscaiInventoryModel {
 
     const { limit, offset } = getPagination(page, size)
 
-    const like = search ? `AND IEAN LIKE '${search}%' OR ICOD LIKE '${search}%'` : '';
+    const like = search !== 'null' ? `AND IEAN LIKE '${search.trim().toUpperCase()}%' OR ICOD LIKE '${search.trim().toUpperCase()}%'` : '';
     const isStock = withStock ? 'AND ALMCANT <> 0' : ''
     const searchFamily = family ? `AND FAMB.FAMDESCR = '${family.toUpperCase()}'` : ''
 
@@ -47,12 +47,13 @@ export class ProscaiInventoryModel {
 	    AND mid(ICOD, 1, 2) = ${almacen} 
       ${searchFamily}
       ${like}
+      GROUP BY ICOD
       ORDER BY
         ALMCANT,
 	      IFAMB,
 	      IUPC
       
-
+      limit ${limit}
     
     `) as Array<any>
 

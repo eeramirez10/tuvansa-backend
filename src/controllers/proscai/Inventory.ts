@@ -12,12 +12,14 @@ export class ProscaiInventoryController {
 
   static getList = async (req: RequestExt, res: Response, next: NextFunction) => {
 
-    const { page, size, search, almacen, withStock: stock ,family } = req.query;
+    const { page, size, search, almacen, withStock: stock, family } = req.query;
+
+    console.log(search)
 
     const withStock = stock ? stringToBoolean(stock) : false;
-
+    const withSearch = search === undefined ? undefined : stringToBoolean(search) ? undefined : search;
     try {
-      const inventories = await ProscaiInventoryModel.getList({ page, size, search, almacen, withStock, family })
+      const inventories = await ProscaiInventoryModel.getList({ page, size, search: withSearch, almacen, withStock, family })
 
       res.json({ inventories })
 

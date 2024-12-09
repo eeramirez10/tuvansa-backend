@@ -116,6 +116,7 @@ export class InventoryController {
         [InventoryModel.getByIseq({ iseq }), ProscaiInventoryModel.getByIseq({ iseq })]
       )
 
+
       let newinventory;
 
       if (inventory) {
