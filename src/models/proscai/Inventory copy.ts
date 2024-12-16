@@ -19,7 +19,7 @@ export class ProscaiInventoryModel {
 
     const conexion = await connection()
 
-    console.log(family)
+
 
     const { limit, offset } = getPagination(page, size)
 
@@ -60,7 +60,7 @@ export class ProscaiInventoryModel {
     `) as Array<any>
 
 
-    console.log({searchFamily});
+
 
 
     const ubications = async (cod) => {

@@ -43,7 +43,7 @@ interface ReqRelease extends Request {
 export class InventoryController {
   static create = async (req: RequestExt, res: Response, next: NextFunction) => {
 
-    console.log(req.body);
+
 
     const { count, iseq } = req.body
     const userId = req.userId
@@ -149,11 +149,13 @@ export class InventoryController {
 
   static getAll = async (req: RequestExt, res: Response, next: NextFunction) => {
 
-    const { page, size, search, almacen } = req.query;
+    const { page, size,  almacen } = req.query;
+
+   const search = req.query.search as string
 
     try {
-      const inventories = await InventoryModel.getAll()
-      console.log(inventories)
+      const inventories = await InventoryModel.getAll({ search })
+
 
       res.json({ inventories: { items: inventories } })
 
@@ -185,12 +187,12 @@ export class InventoryController {
     const paused = req.body.paused
 
     try {
-     await InventoryModel.release({ paused })
+      await InventoryModel.release({ paused })
 
       res.json({
         inventory: true
       })
-      
+
     } catch (error) {
       next(error)
     }

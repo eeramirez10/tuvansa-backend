@@ -72,15 +72,29 @@ export class InventoryModel {
     return paused;
   }
 
-  static getAll = async () => {
+  static getAll = async ({ search }: { search: string }) => {
+
+    const seachFilter = search 
+    ? {
+        $or:[
+          { "cod":{ $regex: search }  },
+          { "ean":{ $regex: search }  },
+          { "description":{ $regex: search }  },
+
+        ]
+
+
+    }: {}
 
 
 
-    let inventoryDB = await Inventory.find({ 'counts.0': { $exists: true } })
+    let inventoryDB = await Inventory.find({ 'counts.0': { $exists: true }, ...seachFilter })
       .populate({ path: 'counts', populate: { path: 'user', select: ['username', 'name'] } })
       .populate({ path: 'user', select: ['username', 'name'] })
       .sort({ createdAt: -1 })
     // .limit(2)
+
+    console.log(inventoryDB)
     return inventoryDB
   }
 

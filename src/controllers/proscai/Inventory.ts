@@ -14,8 +14,6 @@ export class ProscaiInventoryController {
 
     const { page, size, search, almacen, withStock: stock, family } = req.query;
 
-    console.log(search)
-
     const withStock = stock ? stringToBoolean(stock) : false;
     const withSearch = search === undefined ? undefined : stringToBoolean(search) ? undefined : search;
     try {

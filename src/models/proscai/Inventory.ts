@@ -17,11 +17,11 @@ export class ProscaiInventoryModel {
     const { page = '1', size = '50', search = '', almacen = '01', withStock = false, family = '' } = props;
 
     const conexion = await connection();
-    console.log(family);
+
 
     const { limit, offset } = getPagination(page, size);
 
-    const like = search !== 'null' ? `AND IEAN LIKE '${search.trim().toUpperCase()}%' OR ICOD LIKE '${search.trim().toUpperCase()}%'` : '';
+    const like = search !== 'null' ? `AND IEAN LIKE '${search.trim().toUpperCase()}%' OR ICOD LIKE '${search.trim().toUpperCase()}%' OR I2DESCR LIKE '${search.trim().toUpperCase()}%' ` : '';
     const isStock = withStock ? 'AND ALMCANT <> 0' : '';
     const searchFamily = family ? `AND FAMB.FAMDESCR = '${family.toUpperCase()}'` : '';
 
@@ -50,6 +50,33 @@ export class ProscaiInventoryModel {
       ORDER BY ALMCANT, IFAMB, IUPC
       limit ${limit}
     `) as Array<any>;
+
+    // console.log(`
+      
+    //       SELECT  
+    //     ALMNUM branchOffice,
+    //     CAST(FINV.ISEQ AS CHAR) iseq,
+    //     FAMB.FAMDESCR as familyDescription,
+    //     ICOD as cod,
+    //     IEAN as ean,
+    //     I2DESCR as description,
+    //     ALMCANT as quantity,
+    //     ILISTA4 costo 
+    //   FROM
+    //     FALM
+    //     LEFT JOIN FINV ON FINV.ISEQ = FALM.ISEQ
+    //     LEFT JOIN FINV2 ON FINV2.I2KEY = FALM.ISEQ
+    //     LEFT JOIN FFAM AS FAMB ON FAMB.FAMTNUM = FINV.IFAMB
+    //   WHERE ALMNUM = ${almacen} 
+    //     and ITIPO=1 
+    //     ${isStock}
+    //     AND mid(ICOD, 1, 2) = ${almacen} 
+    //     ${searchFamily}
+    //     ${like}
+    //   GROUP BY ICOD
+    //   ORDER BY ALMCANT, IFAMB, IUPC
+    //   limit ${limit}
+    //   `)
 
     const ubications = async (cod) => {
       const [ubications] = await conexion.query(`
