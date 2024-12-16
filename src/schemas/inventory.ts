@@ -5,7 +5,7 @@ import { BranchOffice, BranchOfficeCode, Inventory } from '../interfaces/invento
 export const inventorySchema = new Schema<Inventory>({
   iseq: { type: String, required: true, unique: true },
   cod: { type: String, required: true, unique: true },
-  ean: { type: String, required: true, unique: true },
+  ean: { type: String, required: true },
   description: { type: String, required: true },
   quantity: { type: String, required: true },
   paused: { type: Boolean, required: true, default: false },
