@@ -43,6 +43,8 @@ interface ReqRelease extends Request {
 export class InventoryController {
   static create = async (req: RequestExt, res: Response, next: NextFunction) => {
 
+    console.log(req.body);
+
     const { count, iseq } = req.body
     const userId = req.userId
 
