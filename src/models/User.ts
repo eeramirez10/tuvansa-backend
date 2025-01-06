@@ -13,8 +13,7 @@ export class UserModel {
   }
 
   static update = async ({ id, input }: { id: string, input: UpdateUser }) => {
-    console.log(input.name)
-    console.log(id)
+
     const updatedUser = await User.findByIdAndUpdate(id, { ...input })
     return updatedUser
   }

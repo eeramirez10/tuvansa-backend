@@ -190,7 +190,7 @@ export class DoctoProscaiModel {
 
     const [suppliers] = await con.query(query, [supplierId]);
 
-    console.log(suppliers)
+
 
 
     return suppliers

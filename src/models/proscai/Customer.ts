@@ -5,7 +5,7 @@ export class CustomerModel {
 
     
     const like = search ? `WHERE (CLINOM LIKE '%${search.toUpperCase()}%')` : ' ';
-    console.log(like)
+  
     const con = await connection()
 
     const [customers] = await con.query(`

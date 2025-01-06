@@ -94,7 +94,7 @@ export class SalesController {
 
       res.json({ remission })
 
-      console.log(remission)
+    
 
     } catch (error) {
       next(error)

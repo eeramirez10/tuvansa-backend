@@ -19,11 +19,20 @@ export class ProscaiInventoryModel {
     const conexion = await connection();
 
 
+
+
     const { limit, offset } = getPagination(page, size);
 
-    const like = search !== 'null' ? `AND IEAN LIKE '${search.trim().toUpperCase()}%' OR ICOD LIKE '${search.trim().toUpperCase()}%' OR I2DESCR LIKE '${search.trim().toUpperCase()}%' ` : '';
+    const like = search
+      ? `
+      AND (
+      IEAN LIKE '${search.trim().toUpperCase()}%' 
+      OR ICOD LIKE '${search.trim().toUpperCase()}%' 
+      OR I2DESCR LIKE '%${search.trim().toUpperCase()}%'
+    ) 
+    ` : '';
     const isStock = withStock ? 'AND ALMCANT <> 0' : '';
-    const searchFamily = family ? `AND FAMB.FAMDESCR = '${family.toUpperCase()}'` : '';
+    const searchFamily = family === 'all' ? '' : family ? `AND FAMB.FAMDESCR = '${family.toUpperCase()}'` : '';
 
     const [inventarios] = await conexion.query(`
       SELECT  
@@ -32,6 +41,7 @@ export class ProscaiInventoryModel {
         FAMB.FAMDESCR as familyDescription,
         ICOD as cod,
         IEAN as ean,
+        IUM as um,
         I2DESCR as description,
         ALMCANT as quantity,
         ILISTA4 costo 
@@ -40,55 +50,29 @@ export class ProscaiInventoryModel {
         LEFT JOIN FINV ON FINV.ISEQ = FALM.ISEQ
         LEFT JOIN FINV2 ON FINV2.I2KEY = FALM.ISEQ
         LEFT JOIN FFAM AS FAMB ON FAMB.FAMTNUM = FINV.IFAMB
-      WHERE ALMNUM = ${almacen} 
+      WHERE ALMNUM = '${almacen}'
         and ITIPO=1 
         ${isStock}
-        AND mid(ICOD, 1, 2) = ${almacen} 
+        AND mid(ICOD, 1, 2) = '${almacen}' 
         ${searchFamily}
         ${like}
       GROUP BY ICOD
-      ORDER BY ALMCANT, IFAMB, IUPC
+      ORDER BY ICOD
       limit ${limit}
     `) as Array<any>;
 
-    // console.log(`
-      
-    //       SELECT  
-    //     ALMNUM branchOffice,
-    //     CAST(FINV.ISEQ AS CHAR) iseq,
-    //     FAMB.FAMDESCR as familyDescription,
-    //     ICOD as cod,
-    //     IEAN as ean,
-    //     I2DESCR as description,
-    //     ALMCANT as quantity,
-    //     ILISTA4 costo 
-    //   FROM
-    //     FALM
-    //     LEFT JOIN FINV ON FINV.ISEQ = FALM.ISEQ
-    //     LEFT JOIN FINV2 ON FINV2.I2KEY = FALM.ISEQ
-    //     LEFT JOIN FFAM AS FAMB ON FAMB.FAMTNUM = FINV.IFAMB
-    //   WHERE ALMNUM = ${almacen} 
-    //     and ITIPO=1 
-    //     ${isStock}
-    //     AND mid(ICOD, 1, 2) = ${almacen} 
-    //     ${searchFamily}
-    //     ${like}
-    //   GROUP BY ICOD
-    //   ORDER BY ALMCANT, IFAMB, IUPC
-    //   limit ${limit}
-    //   `)
 
-    const ubications = async (cod) => {
-      const [ubications] = await conexion.query(`
-        SELECT  ALMNUM warehouse, CAST(FALM.almseq AS CHAR)  almseq,ICOD cod,IEAN ean,I2DESCR description, SUM(ALMCANT) AS quantity FROM FINV
-        LEFT JOIN FALM ON FALM.ISEQ=FINV.ISEQ
-        LEFT JOIN FINV2 ON FINV2.I2KEY=FALM.ISEQ
-        WHERE ICOD = '${cod}' and ITIPO=1  and IEAN <> '' and ALMNUM <> ${almacen}
-        GROUP BY ALMNUM,IEAN
-      `) as Array<any>;
+    // const ubications = async (cod) => {
+    //   const [ubications] = await conexion.query(`
+    //     SELECT  ALMNUM warehouse, CAST(FALM.almseq AS CHAR)  almseq,ICOD cod,IEAN ean,I2DESCR description, SUM(ALMCANT) AS quantity FROM FINV
+    //     LEFT JOIN FALM ON FALM.ISEQ=FINV.ISEQ
+    //     LEFT JOIN FINV2 ON FINV2.I2KEY=FALM.ISEQ
+    //     WHERE ICOD = '${cod}' and ITIPO=1  and IEAN <> '' and ALMNUM <> ${almacen}
+    //     GROUP BY ALMNUM,IEAN
+    //   `) as Array<any>;
 
-      return ubications.map(inv => ({ ...inv, warehouse: { code: inv.warehouse, name: "" } }));
-    };
+    //   return ubications.map(inv => ({ ...inv, warehouse: { code: inv.warehouse, name: "" } }));
+    // };
 
     const result = {
       items: await Promise.all(
@@ -97,7 +81,9 @@ export class ProscaiInventoryModel {
             code: inv.branchOffice,
             name: BRANCH_OFFICE_VALUES[inv.branchOffice],
           },
-          shelters: await ubications(inv.cod)
+          // shelters: await ubications(inv.cod)
+          shelters: []
+
         }))
       ),
       total: 0
