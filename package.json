@@ -7,7 +7,7 @@
     "pm2": "NODE_ENV=production pm2 start dist/server.js ",
     "clean": "find ./src -name '*.js' -type f -delete",
     "build": "tsc",
-    "start": "NODE_ENV=production nodemon src/server.ts",
+    "start": "NODE_ENV=production node dist/app.js",
     "dev": "NODE_ENV=development nodemon src/server.ts",
     "test:unit": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules npx jest",
     "heroku-postbuild": "npm run build"
