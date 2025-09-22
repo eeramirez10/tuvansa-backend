@@ -99,7 +99,7 @@ export class ProscaiInventoryModel {
     const conexion = await connection();
 
     const [[inventory]]: any = await conexion.query(`
-      SELECT  ALMNUM branchOffice, CAST(FINV.ISEQ AS CHAR) iseq,ICOD cod,IEAN ean,I2DESCR description, ALMCANT AS quantity, ILISTA4 costo FROM FINV
+      SELECT  ALMNUM branchOffice, CAST(FINV.ISEQ AS CHAR) iseq,ICOD cod,IEAN ean,I2DESCR description, ALMCANT AS quantity, ILISTA4 costo, IUM as um FROM FINV
       LEFT JOIN FALM ON FALM.ISEQ=FINV.ISEQ
       LEFT JOIN FINV2 ON FINV2.I2KEY=FINV.ISEQ
       WHERE ITIPO=1  and IEAN <> '' AND FINV.ISEQ = ${iseq} AND ALMNUM = '01'
@@ -109,6 +109,8 @@ export class ProscaiInventoryModel {
 
     // Close the connection after the query
     conexion.end();
+
+    
 
     return {
       ...inventory,

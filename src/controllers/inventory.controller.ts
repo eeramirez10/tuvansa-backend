@@ -118,11 +118,14 @@ export class InventoryController {
         [InventoryModel.getByIseq({ iseq }), ProscaiInventoryModel.getByIseq({ iseq })]
       )
 
+      console.log({ inventoryProscai })
+
 
       let newinventory;
 
       if (inventory) {
         newinventory = {
+          um: inventoryProscai.um,
           ...inventory.toJSON(),
           quantity: inventoryProscai.quantity,
           costo: inventoryProscai.costo
@@ -149,9 +152,9 @@ export class InventoryController {
 
   static getAll = async (req: RequestExt, res: Response, next: NextFunction) => {
 
-    const { page, size,  almacen } = req.query;
+    const { page, size, almacen } = req.query;
 
-   const search = req.query.search as string
+    const search = req.query.search as string
 
     try {
       const inventories = await InventoryModel.getAll({ search })
