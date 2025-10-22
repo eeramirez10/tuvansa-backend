@@ -69,6 +69,8 @@ export class InventoryController {
     const id = req.params.id as string
     const userId = req.userId
 
+    console.log({ inventory })
+
     const inventoryDB = await InventoryModel.edit({ id, inventory })
 
     inventoryDB.user = userId;

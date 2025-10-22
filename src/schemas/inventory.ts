@@ -10,6 +10,7 @@ export const inventorySchema = new Schema<Inventory>({
   quantity: { type: String, required: true },
   paused: { type: Boolean, required: true, default: false },
   costo: { type: Schema.Types.Number },
+  familyDescription:{type: String},
   counts: [
     {
       type: Schema.Types.ObjectId,

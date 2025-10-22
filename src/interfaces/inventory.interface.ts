@@ -6,6 +6,7 @@ export interface Inventory {
   ean: string
   quantity: string
   description: string
+  familyDescription: string
   counts: ObjectId[]
   shelters?: ObjectId[]
   user: ObjectId

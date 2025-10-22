@@ -19,7 +19,7 @@ export class ProscaiInventoryModel {
     const conexion = await connection();
 
 
-
+    console.log({ props })
 
     const { limit, offset } = getPagination(page, size);
 
@@ -99,9 +99,11 @@ export class ProscaiInventoryModel {
     const conexion = await connection();
 
     const [[inventory]]: any = await conexion.query(`
-      SELECT  ALMNUM branchOffice, CAST(FINV.ISEQ AS CHAR) iseq,ICOD cod,IEAN ean,I2DESCR description, ALMCANT AS quantity, ILISTA4 costo, IUM as um FROM FINV
-      LEFT JOIN FALM ON FALM.ISEQ=FINV.ISEQ
-      LEFT JOIN FINV2 ON FINV2.I2KEY=FINV.ISEQ
+      SELECT  ALMNUM branchOffice, CAST(FINV.ISEQ AS CHAR) iseq,ICOD cod,IEAN ean,I2DESCR description,FAMB.FAMDESCR as familyDescription, ALMCANT AS quantity, ILISTA4 costo, IUM as um FROM 
+        FALM
+        LEFT JOIN FINV ON FINV.ISEQ = FALM.ISEQ
+        LEFT JOIN FINV2 ON FINV2.I2KEY = FALM.ISEQ
+        LEFT JOIN FFAM AS FAMB ON FAMB.FAMTNUM = FINV.IFAMB
       WHERE ITIPO=1  and IEAN <> '' AND FINV.ISEQ = ${iseq} AND ALMNUM = '01'
       GROUP BY ALMNUM,IEAN
       ORDER BY ALMNUM,IEAN
@@ -110,7 +112,7 @@ export class ProscaiInventoryModel {
     // Close the connection after the query
     conexion.end();
 
-    
+
 
     return {
       ...inventory,

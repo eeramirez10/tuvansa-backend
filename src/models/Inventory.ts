@@ -22,6 +22,7 @@ export class InventoryModel {
 
     let inventoryDB = await Inventory.findByIdAndUpdate(id, inventory, { new: true })
 
+
     return inventoryDB
 
   }
