@@ -1,0 +1,26 @@
+{
+  "_id": {
+    "$oid": "6759d8f5fcc967b7ff797d1a"
+  },
+  "username": "rvalero",
+  "name": "Ruth",
+  "passwordHash": "$2b$10$18Z7upf1WuuPiuBDkIfeE.VASQ51NdFKAkVgj3O.EOq7ug.rOj5wW",
+  "last": "Valero",
+  "branchOffice": "Mexico",
+  "rol": "admin",
+  "gender": "female",
+  "pagePermission": [
+    "inventories"
+  ],
+  "documentsAuthorization": [
+    "purchaseOrder"
+  ],
+  "signature": null,
+  "createdAt": {
+    "$date": "2024-12-11T18:24:54.013Z"
+  },
+  "updatedAt": {
+    "$date": "2024-12-11T18:24:54.013Z"
+  },
+  "__v": 0
+}

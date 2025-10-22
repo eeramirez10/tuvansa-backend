@@ -1,12 +1,14 @@
 import { Schema } from 'mongoose'
 import mongooseUniqueValidator from 'mongoose-unique-validator'
 import { IUser } from '../interfaces/user.types'
+import { Types } from 'mysql2'
 
 export const userSchema = new Schema<IUser>({
   username: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
+
   },
   name: {
     type: String,
@@ -23,14 +25,23 @@ export const userSchema = new Schema<IUser>({
   branchOffice: {
     type: String,
     required: true,
-    enum: ["Mexico","Monterrey", "Veracruz", "Mexicali", "Queretaro", "Cancun"]
+    enum: ["Mexico", "Monterrey", "Veracruz", "Mexicali", "Queretaro", "Cancun"]
   },
   rol: {
     type: String,
-  }
+  },
+  gender: {
+    type: String,
+    enum: ['male', 'female', 'other'],
+    default: 'other'
+  },
+  pagePermission: [{ type: String }],
+  documentsAuthorization: [{ type: String, enum: ['purchaseOrder'], default: [] },],
+  signature: { type: String, default: null },
+  signatureFile: { type: Schema.Types.ObjectId, ref:'File' }
 
 }, {
-  timestamps: true
+  timestamps: true,
 })
 
 userSchema.set('toJSON', {

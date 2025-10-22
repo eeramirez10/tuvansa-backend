@@ -8,7 +8,8 @@ const Inventory = model<IInventory>('Inventory', inventorySchema)
 
 export class InventoryModel {
   static create = async ({ inventory }: { inventory: InventoryBody }) => {
-    let inventoryDB = await Inventory.findOne({ iseq: inventory.iseq })
+    let inventoryDB = await Inventory.findOneAndUpdate({ iseq: inventory.iseq, }, inventory, { new: true })
+
     if (!inventoryDB) {
       inventoryDB = await Inventory.create(inventory)
     }
@@ -20,6 +21,7 @@ export class InventoryModel {
   static edit = async ({ id, inventory }: { id: string, inventory: InventoryBody }) => {
 
     let inventoryDB = await Inventory.findByIdAndUpdate(id, inventory, { new: true })
+
 
     return inventoryDB
 
@@ -38,6 +40,22 @@ export class InventoryModel {
   }
 
   static getByIseq = async ({ iseq }: { iseq: string }) => {
+
+    let inventoryDB = await Inventory.findOne({ iseq })
+      .populate('user')
+      .populate({
+        path: 'counts',
+        populate: { path: 'user' }
+      })
+
+
+    return inventoryDB
+  }
+
+  static getByIse = async ({ iseq }: { iseq: string }) => {
+
+
+
     let inventoryDB = await Inventory.findOne({ iseq })
       .populate('user', ['username', 'name'])
       .populate({
@@ -55,10 +73,29 @@ export class InventoryModel {
     return paused;
   }
 
-  static getAll = async () => {
-    let inventoryDB = await Inventory.find({'counts.0': {$exists: true}})
+  static getAll = async ({ search }: { search: string }) => {
+
+    const seachFilter = search 
+    ? {
+        $or:[
+          { "cod":{ $regex: search }  },
+          { "ean":{ $regex: search }  },
+          { "description":{ $regex: search }  },
+
+        ]
+
+
+    }: {}
+
+
+
+    let inventoryDB = await Inventory.find({ 'counts.0': { $exists: true }, ...seachFilter })
       .populate({ path: 'counts', populate: { path: 'user', select: ['username', 'name'] } })
       .populate({ path: 'user', select: ['username', 'name'] })
+      .sort({ createdAt: -1 })
+    // .limit(2)
+
+    console.log(inventoryDB)
     return inventoryDB
   }
 
@@ -67,9 +104,17 @@ export class InventoryModel {
       $pull: {
         counts: countId
       }
-      
-    }, {new: true})
+
+    }, { new: true })
 
     return inventoryDB
+  }
+
+  static release = async ({ paused }: { paused: boolean }) => {
+
+    const inventoryDB = await Inventory.updateMany({ paused: !paused }, { paused })
+
+    return inventoryDB
+
   }
 }
