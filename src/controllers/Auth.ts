@@ -17,11 +17,11 @@ export class AuthController {
       if (userLoginResponse.error) {
 
         if (userLoginResponse.error === AUTH_HANDLE_ERRORS.NOT_FOUND_USER) {
-          return res.status(409).json({ error: 'User or password invalid' })
+          return res.status(401).json({ error: 'User or password invalid' })
         }
 
         if (userLoginResponse.error === AUTH_HANDLE_ERRORS.INVALID_PASSWORD) {
-          return res.status(409).json({ error: 'User or password invalid' })
+          return res.status(401).json({ error: 'User or password invalid' })
         }
 
       }
@@ -70,7 +70,7 @@ export class AuthController {
     const { userId, username } = req
 
 
-    const token = jwt.sign({ id: userId, username }, process.env.SEED!, { expiresIn: 60 * 60 })
+    const token = jwt.sign({ id: userId, username }, process.env.SEED!, { expiresIn: '2h' })
 
     const user = await UserModel.findById(userId)
 
